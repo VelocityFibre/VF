@@ -1,0 +1,23 @@
+[
+  {
+    "@odata.id": "/sites('blitzfibre.sharepoint.com%2Ccf8186e7-97cd-4aff-9d7f-e41cf213eff8%2C0e6533f4-d910-46e1-af3c-10ea74b3efd7')/drive/items('01XUF54KBGZHONDZVWHJC3V33R4IMRMXFM')/workbook/worksheets(%27%7B0203BDF6-6D2A-42E2-93F6-B107A7CC8EE9%7D%27)",
+    "id": "{0203BDF6-6D2A-42E2-93F6-B107A7CC8EE9}",
+    "name": "Zone 1",
+    "position": 0,
+    "visibility": "Visible"
+  },
+  {
+    "@odata.id": "/sites('blitzfibre.sharepoint.com%2Ccf8186e7-97cd-4aff-9d7f-e41cf213eff8%2C0e6533f4-d910-46e1-af3c-10ea74b3efd7')/drive/items('01XUF54KBGZHONDZVWHJC3V33R4IMRMXFM')/workbook/worksheets(%27%7BEAD51A71-CAD0-4093-9FDA-304B4AA68BED%7D%27)",
+    "id": "{EAD51A71-CAD0-4093-9FDA-304B4AA68BED}",
+    "name": "Sheet1",
+    "position": 1,
+    "visibility": "Visible"
+  },
+  {
+    "@odata.id": "/sites('blitzfibre.sharepoint.com%2Ccf8186e7-97cd-4aff-9d7f-e41cf213eff8%2C0e6533f4-d910-46e1-af3c-10ea74b3efd7')/drive/items('01XUF54KBGZHONDZVWHJC3V33R4IMRMXFM')/workbook/worksheets(%27%7B09AC7DC1-CDF9-4526-9AC4-DAE240327727%7D%27)",
+    "id": "{09AC7DC1-CDF9-4526-9AC4-DAE240327727}",
+    "name": "Sheet3",
+    "position": 2,
+    "visibility": "Visible"
+  }
+]

@@ -1,0 +1,122 @@
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                    AGENT WORKFORCE ORGANIGRAM                        ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+                        👤 USER (You)
+                              │
+                              ▼
+                    🧠 ORCHESTRATOR (Claude Code)
+                    │
+                    │  Decision Logic:
+                    │  • Analyze user request
+                    │  • Match keywords to agents
+                    │  • Route to best specialist
+                    │  • Coordinate multi-agent tasks
+                    │
+                    ├─────────────┬─────────────┬─────────────┐
+                    │             │             │             │
+                    ▼             ▼             ▼             ▼
+
+            📦 INFRASTRUCTURE AGENTS
+            ──────────────────────────────
+            │
+            ├─ 🤖 VPS Monitor Agent
+            │   ID: vps-monitor
+            │   Model: claude-3-5-haiku-20241022
+            │   Tools: 3
+
+
+            📦 DATABASE AGENTS
+            ──────────────────────────────
+            │
+            ├─ 🤖 Neon PostgreSQL Agent
+            │   ID: neon-database
+            │   Model: claude-3-haiku-20240307
+            │   Tools: 3
+            │
+            ├─ 🤖 Convex Database Agent
+            │   ID: convex-database
+            │   Model: claude-3-haiku-20240307
+            │   Tools: 3
+
+
+                    ROUTING FLOW:
+                    ═══════════════════════════════════════════════
+
+                    User Query → Orchestrator Analysis
+                         │
+                         ├─ Match keywords
+                         ├─ Check capabilities
+                         ├─ Calculate confidence
+                         │
+                         ▼
+                    Select Best Agent(s)
+                         │
+                         ├─ Single match → Direct routing
+                         ├─ Multiple matches → Present options
+                         └─ No match → Escalate to general AI
+                         │
+                         ▼
+                    Execute Agent Task
+                         │
+                         ├─ Agent uses specialized tools
+                         ├─ Gathers data (DB/SSH/API)
+                         ├─ AI analyzes results
+                         │
+                         ▼
+                    Return to Orchestrator
+                         │
+                         ├─ Format response
+                         ├─ Add context
+                         └─ Present to user
+
+
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                     AGENT CAPABILITY MATRIX                          ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+Agent                     Type            Key Capabilities
+────────────────────────────────────────────────────────────────────────────────
+VPS Monitor Agent         infrastructure  monitoring, analysis, control
+                                          → 9 tools available
+
+Neon PostgreSQL Agent     database        discovery, querying, analysis
+                                          → 9 tools available
+
+Convex Database Agent     database        task management, search, analytics
+                                          → 8 tools available
+
+
+
+
+╔══════════════════════════════════════════════════════════════════════╗
+║                    KEYWORD ROUTING REFERENCE                         ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+When you say...              Orchestrator routes to:
+───────────────────────────────────────────────────────────────────────
+
+  'analytics'                  → Neon PostgreSQL Agent
+  'backend'                    → Convex Database Agent
+  'business intelligence'      → Neon PostgreSQL Agent
+  'convex'                     → Convex Database Agent
+  'cpu'                        → VPS Monitor Agent
+  'data'                       → Neon PostgreSQL Agent
+  'database'                   → Neon PostgreSQL Agent
+  'disk'                       → VPS Monitor Agent
+  'health check'               → VPS Monitor Agent
+  'hostinger'                  → VPS Monitor Agent
+  'infrastructure'             → VPS Monitor Agent
+  'memory'                     → VPS Monitor Agent
+  'monitoring'                 → VPS Monitor Agent
+  'neon'                       → Neon PostgreSQL Agent
+  'performance'                → VPS Monitor Agent
+  'postgresql'                 → Neon PostgreSQL Agent
+  'project management'         → Convex Database Agent
+  'query'                      → Neon PostgreSQL Agent
+  'schema'                     → Neon PostgreSQL Agent
+  'server'                     → VPS Monitor Agent
+
+  ... and 8 more keywords

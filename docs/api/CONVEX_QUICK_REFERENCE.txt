@@ -1,0 +1,62 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    CONVEX SYNC - QUICK REFERENCE                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+📋 ARCHITECTURE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+SharePoint Excel → [Neon DB] → [Convex DB]
+                   ↑ Working     ↑ Build this
+
+Simple database-to-database sync. Just copy 7 tables from Neon to Convex.
+
+🔐 CONVEX CREDENTIALS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+CONVEX_URL=https://quixotic-crow-802.convex.cloud
+DEPLOYMENT=quixotic-crow-802
+SYNC_AUTH_KEY=d8a094cd23d5beb878139d7bec04dab866e0825db06925ea021a917439ede3f6
+
+📊 TABLES TO SYNC (7 total, ~60k records)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1. sow_poles              ~4,500 records
+2. sow_drops              ~23,700 records
+3. nokia_exports          ~1,900 records
+4. onemap_installations   ~21,700 records
+5. onemap_poles           ~5,400 records
+6. lawley_activations     ~1,900 records
+7. mohadin_activations    ~400 records
+
+🎯 TASK
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Build Neon → Convex sync for these 7 tables.
+Read from Neon PostgreSQL, write to Convex collections.
+Use same table/collection names. Simple database copy.
+
+📁 DATA SOURCE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Server: root@72.60.17.245
+Source: Neon PostgreSQL (connection in /root/datahub/.env)
+Reference: /root/datahub/src/database/client.js (reuse Neon client)
+
+⏰ AUTOMATION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Cron: Every 4 hours, 15 minutes AFTER Neon sync
+Schedule: 00:15, 04:15, 08:15, 12:15, 16:15, 20:15
+Command: npm run sync:convex
+
+Why 15 min offset?
+- Neon sync runs at :00 (takes ~23 minutes)
+- Convex sync starts at :15 (ensures fresh data)
+
+✅ DONE WHEN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+- All 7 tables syncing from Neon to Convex
+- Data in Convex matches Neon exactly
+- Cron job running every 4 hours (at :15 mark)
+- Sync completes in < 10 minutes
+
+💡 WHY THIS APPROACH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ Simpler - no duplicate SharePoint parsing
+✅ Faster - direct database copy
+✅ Cleaner - Neon is single source of truth
+✅ Easier to maintain - only one SharePoint sync

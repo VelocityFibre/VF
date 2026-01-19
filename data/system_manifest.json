@@ -1,0 +1,315 @@
+{
+  "system": {
+    "name": "Superior Agent Brain",
+    "version": "2.0",
+    "status": "operational",
+    "type": "ai_agent_brain_system",
+    "last_updated": "2025-11-19"
+  },
+
+  "location": {
+    "base_directory": "/home/louisdup/Agents/claude",
+    "repository": {
+      "type": "git",
+      "branch": "main",
+      "status": "active"
+    }
+  },
+
+  "entry_points": {
+    "python": {
+      "main": "/home/louisdup/Agents/claude/superior_agent_brain.py",
+      "class": "SuperiorAgentBrain",
+      "import": "from superior_agent_brain import SuperiorAgentBrain"
+    },
+    "http": {
+      "base_url": "http://localhost:8000",
+      "protocol": "REST",
+      "status_endpoint": "/status",
+      "chat_endpoint": "/chat"
+    },
+    "websocket": {
+      "url": "ws://localhost:8000/ws/chat",
+      "protocol": "WebSocket"
+    }
+  },
+
+  "documentation": {
+    "hub": "/home/louisdup/Agents/claude/docs",
+    "files": {
+      "readme": "/home/louisdup/Agents/claude/docs/README.md",
+      "master_index": "/home/louisdup/Agents/claude/docs/MASTER_INDEX.md",
+      "architecture": "/home/louisdup/Agents/claude/docs/COMPLETE_BRAIN_ARCHITECTURE.md",
+      "summary": "/home/louisdup/Agents/claude/docs/COMPLETE_FRAMEWORK_SUMMARY.md",
+      "external_access": "/home/louisdup/Agents/claude/docs/EXTERNAL_AGENT_ACCESS_GUIDE.md",
+      "quick_reference": "/home/louisdup/Agents/claude/EXTERNAL_AGENT_QUICK_REF.txt",
+      "document_guide": "/home/louisdup/Agents/claude/docs/DOCUMENT_INTEGRATION_GUIDE.md",
+      "ui_guide": "/home/louisdup/Agents/claude/docs/UI_INTEGRATION_GUIDE.md"
+    }
+  },
+
+  "components": {
+    "core_brain": {
+      "path": "/home/louisdup/Agents/claude/superior_agent_brain.py",
+      "class": "SuperiorAgentBrain",
+      "status": "implemented",
+      "methods": [
+        "chat(message, user_id)",
+        "process_query(query, user_id, use_memory)",
+        "save_session(summary)",
+        "sleep(conversation_days, performance_days)",
+        "get_brain_status()",
+        "reset_conversation()",
+        "close()"
+      ]
+    },
+
+    "memory_systems": {
+      "base_path": "/home/louisdup/Agents/claude/memory",
+      "components": {
+        "vector_memory": {
+          "path": "/home/louisdup/Agents/claude/memory/vector_memory.py",
+          "class": "VectorMemory",
+          "database": "qdrant",
+          "purpose": "Episodic/semantic memory",
+          "status": "implemented"
+        },
+        "persistent_memory": {
+          "path": "/home/louisdup/Agents/claude/memory/persistent_memory.py",
+          "class": "PersistentMemory",
+          "database": "neon_postgresql",
+          "purpose": "Long-term conversation storage",
+          "status": "implemented"
+        },
+        "meta_learner": {
+          "path": "/home/louisdup/Agents/claude/memory/meta_learner.py",
+          "class": "MetaLearner",
+          "database": "neon_postgresql",
+          "purpose": "Performance tracking and learning",
+          "status": "implemented"
+        },
+        "knowledge_graph": {
+          "path": "/home/louisdup/Agents/claude/memory/knowledge_graph.py",
+          "class": "KnowledgeGraph",
+          "database": "neon_postgresql",
+          "purpose": "Cross-agent shared learning",
+          "status": "implemented"
+        },
+        "consolidation": {
+          "path": "/home/louisdup/Agents/claude/memory/consolidation.py",
+          "class": "MemoryConsolidation",
+          "database": "neon_postgresql",
+          "purpose": "Memory optimization",
+          "status": "implemented"
+        }
+      }
+    },
+
+    "orchestration": {
+      "path": "/home/louisdup/Agents/claude/orchestrator/orchestrator.py",
+      "class": "AgentOrchestrator",
+      "registry": "/home/louisdup/Agents/claude/orchestrator/registry.json",
+      "purpose": "Task routing to specialized agents",
+      "status": "implemented"
+    },
+
+    "document_rag": {
+      "base_path": "/home/louisdup/Agents/claude/document_rag",
+      "status": "implementation_ready",
+      "components": {
+        "ingestion": "/home/louisdup/Agents/claude/document_rag/document_ingestion.py",
+        "embeddings": "/home/louisdup/Agents/claude/document_rag/document_embeddings.py",
+        "search": "/home/louisdup/Agents/claude/document_rag/document_search.py",
+        "pipeline": "/home/louisdup/Agents/claude/document_rag/rag_pipeline.py"
+      }
+    },
+
+    "ui_layer": {
+      "base_path": "/home/louisdup/Agents/claude/ui-module",
+      "current": {
+        "backend": "/home/louisdup/Agents/claude/ui-module/unified_agent_api.py",
+        "frontend": "/home/louisdup/Agents/claude/ui-module/unified_chat.html"
+      },
+      "enhanced": {
+        "backend": "/home/louisdup/Agents/claude/ui-module/enhanced_agent_api.py",
+        "frontend": "/home/louisdup/Agents/claude/ui-module/enhanced_chat.html",
+        "status": "implementation_ready"
+      }
+    }
+  },
+
+  "agents": {
+    "neon_agent": {
+      "path": "/home/louisdup/Agents/claude/neon_agent.py",
+      "class": "NeonAgent",
+      "purpose": "PostgreSQL/Neon database queries",
+      "status": "implemented"
+    },
+    "convex_agent": {
+      "path": "/home/louisdup/Agents/claude/convex_agent.py",
+      "class": "ConvexAgent",
+      "purpose": "Convex real-time database",
+      "status": "implemented"
+    },
+    "universal_convex_agent": {
+      "path": "/home/louisdup/Agents/claude/universal_convex_agent.py",
+      "class": "UniversalConvexAgent",
+      "purpose": "Dynamic Convex table access",
+      "status": "implemented"
+    },
+    "dual_database_agent": {
+      "path": "/home/louisdup/Agents/claude/ui-module/dual_agent.py",
+      "class": "DualDatabaseAgent",
+      "purpose": "Dual Neon + Convex support",
+      "status": "implemented"
+    }
+  },
+
+  "databases": {
+    "qdrant": {
+      "type": "vector_database",
+      "host": "localhost",
+      "port": 6333,
+      "url": "http://localhost:6333",
+      "collections": [
+        "agent_memory",
+        "document_embeddings",
+        "conversation_memory"
+      ],
+      "purpose": "Vector embeddings for semantic search"
+    },
+    "neon": {
+      "type": "postgresql",
+      "connection_env": "NEON_DATABASE_URL",
+      "tables": [
+        "conversations",
+        "messages",
+        "agent_actions",
+        "agent_performance",
+        "routing_history",
+        "learning_insights",
+        "knowledge_nodes",
+        "knowledge_edges",
+        "agent_contributions",
+        "consolidated_memories",
+        "consolidation_runs"
+      ],
+      "purpose": "Structured data storage"
+    },
+    "convex": {
+      "type": "realtime_database",
+      "url_env": "CONVEX_URL",
+      "table_count": "35+",
+      "purpose": "Real-time data queries"
+    }
+  },
+
+  "configuration": {
+    "environment_file": "/home/louisdup/Agents/claude/.env",
+    "required_variables": [
+      "ANTHROPIC_API_KEY",
+      "NEON_DATABASE_URL",
+      "CONVEX_URL"
+    ],
+    "optional_variables": [
+      "QDRANT_URL",
+      "QDRANT_API_KEY",
+      "CONVEX_AUTH_KEY"
+    ],
+    "requirements": {
+      "superior_brain": "/home/louisdup/Agents/claude/requirements_superior_brain.txt"
+    }
+  },
+
+  "capabilities": {
+    "natural_language_query": true,
+    "memory_recall": true,
+    "document_search": true,
+    "task_routing": true,
+    "performance_learning": true,
+    "knowledge_sharing": true,
+    "cross_session_persistence": true,
+    "source_citations": true,
+    "agent_orchestration": true,
+    "real_time_updates": true,
+    "websocket_support": true
+  },
+
+  "api": {
+    "rest": {
+      "base_url": "http://localhost:8000",
+      "endpoints": {
+        "chat": {
+          "method": "POST",
+          "path": "/chat",
+          "description": "Main chat endpoint"
+        },
+        "status": {
+          "method": "GET",
+          "path": "/status",
+          "description": "System status"
+        },
+        "save_session": {
+          "method": "POST",
+          "path": "/save_session",
+          "description": "Save current session"
+        },
+        "reset_conversation": {
+          "method": "POST",
+          "path": "/reset_conversation",
+          "description": "Reset conversation"
+        },
+        "consolidate_memory": {
+          "method": "POST",
+          "path": "/consolidate_memory",
+          "description": "Run memory consolidation"
+        },
+        "list_agents": {
+          "method": "GET",
+          "path": "/agents",
+          "description": "List available agents"
+        },
+        "reindex_documents": {
+          "method": "POST",
+          "path": "/reindex_documents",
+          "description": "Re-index all documents"
+        }
+      }
+    },
+    "websocket": {
+      "url": "ws://localhost:8000/ws/chat",
+      "protocol": "WebSocket",
+      "message_format": "JSON"
+    }
+  },
+
+  "integration_examples": {
+    "python_direct": {
+      "code": "import sys; sys.path.insert(0, '/home/louisdup/Agents/claude'); from superior_agent_brain import SuperiorAgentBrain; brain = SuperiorAgentBrain(); response = brain.chat('Hello'); brain.close()"
+    },
+    "http_request": {
+      "code": "import requests; requests.post('http://localhost:8000/chat', json={'message': 'Hello', 'user_id': 'agent_1'})"
+    }
+  },
+
+  "status": {
+    "implementation": "100%",
+    "documentation": "100%",
+    "testing": "basic",
+    "production_ready": false,
+    "notes": "All components implemented and documented. Requires production hardening (auth, security, scaling)."
+  },
+
+  "support": {
+    "documentation_hub": "/home/louisdup/Agents/claude/docs",
+    "quick_reference": "/home/louisdup/Agents/claude/EXTERNAL_AGENT_QUICK_REF.txt",
+    "external_access_guide": "/home/louisdup/Agents/claude/docs/EXTERNAL_AGENT_ACCESS_GUIDE.md"
+  },
+
+  "metadata": {
+    "created": "2025-11-19",
+    "version": "2.0",
+    "manifest_format": "json",
+    "for": "External AI agents and automated discovery"
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "tasks": [
+    {
+      "assigned": "unassigned",
+      "task": "TASK: Fix the auth bug in production",
+      "timestamp": "10:30",
+      "from": "Louis"
+    },
+    {
+      "assigned": "hein",
+      "task": "Hein will check the deployment",
+      "timestamp": "10:31",
+      "from": "Hein"
+    },
+    {
+      "assigned": "louis",
+      "task": "Louis will update the docs",
+      "timestamp": "10:35",
+      "from": "Hein"
+    }
+  ],
+  "updated": "2026-01-09T14:14:49.557407"
+}

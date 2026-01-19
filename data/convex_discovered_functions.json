@@ -1,0 +1,268 @@
+[
+  {
+    "path": "tasks:list",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: f2f426211c898028] Server Error"
+    }
+  },
+  {
+    "path": "tasks:listTasks",
+    "response": {
+      "status": "success",
+      "value": {
+        "tasks": [],
+        "total": 0.0
+      }
+    }
+  },
+  {
+    "path": "tasks:getAll",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 24bae798a103fd28] Server Error"
+    }
+  },
+  {
+    "path": "tasks:add",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: b82140fab6d7b163] Server Error"
+    }
+  },
+  {
+    "path": "tasks:addTask",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: fc5257c6f9d69bac] Server Error"
+    }
+  },
+  {
+    "path": "tasks:create",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: b411329a6026566e] Server Error"
+    }
+  },
+  {
+    "path": "tasks:get",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: cabc0fe26938cd49] Server Error"
+    }
+  },
+  {
+    "path": "tasks:getTask",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 0db18abcc5b3b584] Server Error"
+    }
+  },
+  {
+    "path": "tasks:getById",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 3eafd17a4cedcf32] Server Error"
+    }
+  },
+  {
+    "path": "tasks:update",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 5f78bd534b868026] Server Error"
+    }
+  },
+  {
+    "path": "tasks:updateTask",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 752afe0e0bdcd92a] Server Error"
+    }
+  },
+  {
+    "path": "tasks:delete",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 4a22921a94c3ae5b] Server Error"
+    }
+  },
+  {
+    "path": "tasks:deleteTask",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 7b6344c50d5268b5] Server Error"
+    }
+  },
+  {
+    "path": "tasks:search",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 16aecaba6f110315] Server Error"
+    }
+  },
+  {
+    "path": "tasks:searchTasks",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 56ae9f132f76347c] Server Error"
+    }
+  },
+  {
+    "path": "tasks:stats",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 7bcd5bd13921d71f] Server Error"
+    }
+  },
+  {
+    "path": "tasks:getTaskStats",
+    "response": {
+      "status": "success",
+      "value": {
+        "byPriority": {
+          "high": 0.0,
+          "low": 0.0,
+          "medium": 0.0,
+          "urgent": 0.0
+        },
+        "byStatus": {
+          "blocked": 0.0,
+          "completed": 0.0,
+          "in_progress": 0.0,
+          "pending": 0.0
+        },
+        "total": 0.0
+      }
+    }
+  },
+  {
+    "path": "tasks:getStats",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 89036820f3384e5a] Server Error"
+    }
+  },
+  {
+    "path": "contractors:list",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: a24e6555d1f9dbd4] Server Error"
+    }
+  },
+  {
+    "path": "contractors:listAll",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: f008aa616234c4dd] Server Error"
+    }
+  },
+  {
+    "path": "contractors:getAll",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 8f2e9b29fc5e96bd] Server Error"
+    }
+  },
+  {
+    "path": "contractors:create",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 77bdf1fb5a263be5] Server Error"
+    }
+  },
+  {
+    "path": "contractors:add",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 3e8d78657af6c3c3] Server Error"
+    }
+  },
+  {
+    "path": "projects:list",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: eb6d9953c68f0cd2] Server Error"
+    }
+  },
+  {
+    "path": "projects:listAll",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 20ae0455267de48e] Server Error"
+    }
+  },
+  {
+    "path": "projects:getAll",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 9b6f099b426cc8dc] Server Error"
+    }
+  },
+  {
+    "path": "projects:create",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 735da014e2e9bc8c] Server Error"
+    }
+  },
+  {
+    "path": "projects:add",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 2988a6e2829ca94f] Server Error"
+    }
+  },
+  {
+    "path": "sync:getStats",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: bb2968c971a1f9c0] Server Error"
+    }
+  },
+  {
+    "path": "sync:getSyncStats",
+    "response": {
+      "status": "success",
+      "value": {
+        "byTable": {},
+        "lastSync": null,
+        "totalMappings": 0.0
+      }
+    }
+  },
+  {
+    "path": "sync:getLastSync",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 659c24633d5de833] Server Error"
+    }
+  },
+  {
+    "path": "sync:getLastSyncTime",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 871cce7b71829e42] Server Error"
+    }
+  },
+  {
+    "path": "listTasks",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 5ebbb987f778942a] Server Error"
+    }
+  },
+  {
+    "path": "getTasks",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: ea0502d89801a0ee] Server Error"
+    }
+  },
+  {
+    "path": "getAllTasks",
+    "response": {
+      "status": "error",
+      "errorMessage": "[Request ID: 5a4b0155d441ea54] Server Error"
+    }
+  }
+]

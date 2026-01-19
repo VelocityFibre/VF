@@ -1,0 +1,71 @@
+{
+  "evaluation": {
+    "dr_number": "DR1733758",
+    "overall_status": "FAIL",
+    "average_score": 0,
+    "total_steps": 7,
+    "passed_steps": 0,
+    "step_results": [
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API returned 404: {\"error\":{\"message\":\"The model `openbmb/MiniCPM-V-2_6` does not exist.\",\"type\":\"NotFoundError\",\"param\":null,\"code\":404}}",
+        "step_name": "batch_1_photo_1",
+        "step_label": "Batch 1 Photo 1",
+        "step_number": 1
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API returned 404: {\"error\":{\"message\":\"The model `openbmb/MiniCPM-V-2_6` does not exist.\",\"type\":\"NotFoundError\",\"param\":null,\"code\":404}}",
+        "step_name": "batch_1_photo_2",
+        "step_label": "Batch 1 Photo 2",
+        "step_number": 2
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API returned 404: {\"error\":{\"message\":\"The model `openbmb/MiniCPM-V-2_6` does not exist.\",\"type\":\"NotFoundError\",\"param\":null,\"code\":404}}",
+        "step_name": "batch_1_photo_3",
+        "step_label": "Batch 1 Photo 3",
+        "step_number": 3
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API returned 404: {\"error\":{\"message\":\"The model `openbmb/MiniCPM-V-2_6` does not exist.\",\"type\":\"NotFoundError\",\"param\":null,\"code\":404}}",
+        "step_name": "batch_1_photo_4",
+        "step_label": "Batch 1 Photo 4",
+        "step_number": 4
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API returned 404: {\"error\":{\"message\":\"The model `openbmb/MiniCPM-V-2_6` does not exist.\",\"type\":\"NotFoundError\",\"param\":null,\"code\":404}}",
+        "step_name": "batch_1_photo_5",
+        "step_label": "Batch 1 Photo 5",
+        "step_number": 5
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API returned 404: {\"error\":{\"message\":\"The model `openbmb/MiniCPM-V-2_6` does not exist.\",\"type\":\"NotFoundError\",\"param\":null,\"code\":404}}",
+        "step_name": "batch_2_photo_1",
+        "step_label": "Batch 2 Photo 1",
+        "step_number": 1
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API returned 404: {\"error\":{\"message\":\"The model `openbmb/MiniCPM-V-2_6` does not exist.\",\"type\":\"NotFoundError\",\"param\":null,\"code\":404}}",
+        "step_name": "batch_2_photo_2",
+        "step_label": "Batch 2 Photo 2",
+        "step_number": 2
+      }
+    ],
+    "markdown_report": "Batch 1 failed: VlmEvaluationError: VLM API returned 404: {\"error\":{\"message\":\"The model `openbmb/MiniCPM-V-2_6` does not exist.\",\"type\":\"NotFoundError\",\"param\":null,\"code\":404}}\n\n---\n\nBatch 2 failed: VlmEvaluationError: VLM API returned 404: {\"error\":{\"message\":\"The model `openbmb/MiniCPM-V-2_6` does not exist.\",\"type\":\"NotFoundError\",\"param\":null,\"code\":404}}",
+    "feedback_sent": false,
+    "evaluation_date": "2025-12-17T12:54:19.398Z"
+  },
+  "feedback": "\u274c *QA FAILED*\nDR: DR1733758\n\n\ud83d\udcca Overall Score: 0/10\n\u2714\ufe0f Steps Passed: 0/7\n\n\n*Recommendations:*\n\u274c Significant issues found. Please rework and resubmit.\n"
+}
