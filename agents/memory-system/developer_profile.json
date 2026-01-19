@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "created_at": "2025-12-15T16:00:00Z",
+  "last_updated": "2025-12-15T16:00:00Z",
+  "preferences": {
+    "interruption_threshold": "high_confidence_only",
+    "work_hours": {
+      "enabled": false,
+      "start": "09:00",
+      "end": "18:00",
+      "timezone": "UTC"
+    },
+    "auto_fix_enabled": true,
+    "max_auto_fixes_per_hour": 10
+  },
+  "code_style": {
+    "indentation": "spaces_4",
+    "quote_style": "double",
+    "line_length": 100,
+    "import_style": "absolute"
+  },
+  "avoided_paths": [
+    "convex/migrations/",
+    ".git/",
+    "node_modules/",
+    "venv/"
+  ],
+  "preferred_patterns": {
+    "error_handling": "try_except_with_logging",
+    "testing_framework": "pytest",
+    "commit_message_format": "conventional_commits",
+    "docstring_style": "google"
+  },
+  "learning_data": {
+    "total_commits_analyzed": 0,
+    "code_patterns_detected": {},
+    "frequently_edited_files": [],
+    "last_pattern_analysis": null
+  }
+}

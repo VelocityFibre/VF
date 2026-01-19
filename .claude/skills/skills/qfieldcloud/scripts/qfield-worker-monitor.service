@@ -1,0 +1,33 @@
+[Unit]
+Description=QFieldCloud Worker Monitor Daemon
+After=docker.service qfield-worker.service
+Wants=qfield-worker.service
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=60
+User=root
+WorkingDirectory=/home/louisdup/Agents/claude/.claude/skills/qfieldcloud/scripts
+
+# Set Python path
+Environment="PYTHONPATH=/home/louisdup/Agents/claude"
+
+# Run the monitor daemon
+ExecStart=/usr/bin/python3 /home/louisdup/Agents/claude/.claude/skills/qfieldcloud/scripts/worker_monitor_daemon.py
+
+# Stop gracefully
+ExecStop=/bin/kill -SIGTERM $MAINPID
+KillMode=mixed
+KillSignal=SIGTERM
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+# Resource limits
+MemoryMax=200M
+CPUQuota=10%
+
+[Install]
+WantedBy=multi-user.target

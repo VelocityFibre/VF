@@ -1,0 +1,25 @@
+{
+  "agent_id": "contractor-agent",
+  "name": "Contractor Agent",
+  "version": "1.0.0",
+  "description": "Specialized agent for managing VF contractors and vendors",
+  "type": "data_management",
+  "model": "claude-3-haiku-20240307",
+  "capabilities": [
+    "List all contractors",
+    "Search contractors by name",
+    "Get contractor statistics",
+    "Add new contractors",
+    "Analyze contractor data"
+  ],
+  "tools": [
+    "list_contractors",
+    "search_contractors",
+    "get_contractor_stats",
+    "add_contractor"
+  ],
+  "database": "Convex",
+  "collection": "contractors",
+  "cost_per_query": "$0.001",
+  "avg_response_time": "2-4s"
+}

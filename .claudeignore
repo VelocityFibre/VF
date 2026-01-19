@@ -1,0 +1,71 @@
+# Claude Ignore File - Prevents loading unnecessary context
+# Saves ~30% tokens immediately
+
+# Build artifacts & dependencies (never needed)
+node_modules/
+venv/
+.git/
+dist/
+build/
+out/
+*.pyc
+__pycache__/
+
+# Archives & deprecated code
+archive/
+legacy/
+old_backups/
+memory/
+workers/
+
+# Test results & logs
+autopilot_test_results/
+harness/runs/*
+!harness/runs/latest
+screenshots/
+logs/
+*.log
+*.tmp
+*.cache
+nohup*.out
+
+# Database files
+*.db
+*.sqlite
+*.sql
+!fix_*.sql
+
+# Large markdown files (load only when needed)
+WA_*.md
+TEST_*.md
+TRANSFORMATION_*.md
+REORGANIZATION_*.md
+*_DEPLOYMENT_*.md
+
+# Backup files
+*.backup
+*.save
+.env.backup
+
+# IDE & system files
+.warp/
+.worktrees/
+.DS_Store
+.idea/
+.vscode/
+
+# Public assets
+public/
+
+# Old documentation
+CHANGELOG.md
+docs/status-reports/
+docs/proposals/
+
+# Demo and test files
+demos/
+tests/demos/
+test_*.py
+
+# APK files
+*.apk

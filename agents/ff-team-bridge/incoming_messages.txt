@@ -1,0 +1,8 @@
+[1/9/24, 2:45 PM] Louis: TASK: Connect the FF team bridge to our WhatsApp group @hein
+[1/9/24, 2:46 PM] Hein: I'll help test it with real messages
+[1/9/24, 2:47 PM] Louis: @claude can you monitor this group for us?
+[1/9/24, 2:48 PM] Hein: TODO: Set up automatic sync every minute
+[1/9/24, 2:49 PM] Louis: DECIDED: Use this bridge for all dev communications
+[1/9/24, 2:50 PM] Hein: BUG: Can't find the WhatsApp group ID automatically
+[1/9/24, 2:51 PM] Louis: Hein will check the WhatsApp Web for the group ID
+[1/9/24, 2:52 PM] Hein: Can Louis configure the bridge service?

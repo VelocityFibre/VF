@@ -1,0 +1,184 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-01-15",
+  "server": "100.96.203.105",
+  "allocations": {
+    "3007": {
+      "service": "FibreFlow Production",
+      "description": "Main FibreFlow application",
+      "url": "https://app.fibreflow.app",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "systemd",
+      "owner": "velo",
+      "status": "active"
+    },
+    "3005": {
+      "service": "Development Instance",
+      "description": "Hein's development environment",
+      "environment": "development",
+      "protocol": "tcp",
+      "managed_by": "dokploy",
+      "owner": "hein",
+      "status": "active"
+    },
+    "3006": {
+      "service": "Staging Instance",
+      "description": "Louis's staging environment",
+      "url": "https://vf.fibreflow.app",
+      "environment": "staging",
+      "protocol": "tcp",
+      "managed_by": "dokploy",
+      "owner": "louis",
+      "status": "active"
+    },
+    "5433": {
+      "service": "PostgreSQL + PostGIS",
+      "description": "QFieldCloud database",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "docker",
+      "owner": "qfieldcloud",
+      "status": "active"
+    },
+    "8009": {
+      "service": "MinIO Console",
+      "description": "Object storage web console",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "docker",
+      "owner": "qfieldcloud",
+      "status": "active"
+    },
+    "8010": {
+      "service": "MinIO API",
+      "description": "Object storage API",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "docker",
+      "owner": "qfieldcloud",
+      "status": "active"
+    },
+    "8080": {
+      "service": "BOSS Cost Analytics Dashboard",
+      "description": "Cost analytics and monitoring dashboard",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "docker",
+      "owner": "velo",
+      "status": "active",
+      "notes": "WhatsApp Bridge moved to 8086 to avoid conflict with BOSS dashboard"
+    },
+    "8081": {
+      "service": "WhatsApp Sender",
+      "description": "Sends WhatsApp feedback messages",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "systemd",
+      "owner": "velo",
+      "phone": "+27 71 155 8396",
+      "status": "active",
+      "notes": "Re-paired successfully after 2026-01-14 incident"
+    },
+    "8082": {
+      "service": "QFieldCloud",
+      "description": "QFieldCloud sync service",
+      "url": "https://qfield.fibreflow.app",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "docker",
+      "owner": "qfieldcloud",
+      "workers": 8,
+      "status": "active"
+    },
+    "8083": {
+      "service": "WhatsApp Bridge HTTP Server",
+      "description": "HTTP API endpoint for WhatsApp Bridge",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "systemd",
+      "owner": "velo",
+      "status": "active",
+      "notes": "HTTP server component of WhatsApp Bridge"
+    },
+    "8086": {
+      "service": "WhatsApp Bridge",
+      "description": "Receives WhatsApp messages",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "systemd",
+      "owner": "velo",
+      "phone": "+27640412391",
+      "status": "active",
+      "notes": "Moved from 8080 due to Docker conflict"
+    },
+    "8090": {
+      "service": "Drop Number API",
+      "description": "Drop number management API service",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "node",
+      "owner": "velo",
+      "status": "active",
+      "notes": "Blocking WhatsApp Express microservice deployment"
+    },
+    "8091": {
+      "service": "Storage API",
+      "description": "Firebase replacement storage service",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "node",
+      "owner": "velo",
+      "status": "active",
+      "since": "2026-01-09"
+    },
+    "8092": {
+      "service": "WhatsApp Express Microservice",
+      "description": "Express middleware for WhatsApp feedback integration",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "node",
+      "owner": "velo",
+      "status": "allocated",
+      "notes": "Recommended port for WhatsApp Express microservice"
+    },
+    "8095": {
+      "service": "OCR Service",
+      "description": "4-tier cascade OCR with FastAPI",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "systemd",
+      "owner": "ocr-devs",
+      "location": "/opt/ocr-service/",
+      "status": "active",
+      "planned_url": "ocr.fibreflow.app"
+    },
+    "8100": {
+      "service": "VLM Service",
+      "description": "Qwen3-VL-8B Vision Language Model",
+      "environment": "production",
+      "protocol": "tcp",
+      "managed_by": "docker",
+      "owner": "velo",
+      "status": "active"
+    }
+  },
+  "reserved_ranges": {
+    "3000-3099": "Web Applications",
+    "5000-5999": "Database Services",
+    "8000-8099": "API Services",
+    "8100-8199": "ML/AI Services",
+    "9000-9099": "Monitoring & Internal Tools",
+    "10000+": "Dynamic/Temporary Services"
+  },
+  "dokploy_managed": [
+    3005,
+    3006
+  ],
+  "cloudflare_exposed": [
+    3007,
+    3006,
+    8082,
+    8091
+  ]
+}

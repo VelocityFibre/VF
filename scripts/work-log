@@ -1,0 +1,147 @@
+#!/bin/bash
+# work-log - Smart git-based work log viewer
+# Transforms git history into a human-readable work summary
+
+# Color codes for terminal output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+MAGENTA='\033[0;35m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+RESET='\033[0m'
+
+# Configuration
+DAYS=${1:-7}  # Default to last 7 days, or pass number as argument
+
+echo -e "${BOLD}═══════════════════════════════════════════════════════════${RESET}"
+echo -e "${BOLD}WORK LOG - Last $DAYS Days${RESET}"
+echo -e "${BOLD}═══════════════════════════════════════════════════════════${RESET}"
+echo ""
+
+# Function to determine module from file paths
+get_module() {
+    local files="$1"
+
+    # Priority order (most specific first)
+    [[ "$files" =~ agents/neon ]] && echo "NEON-AGENT" && return
+    [[ "$files" =~ agents/convex ]] && echo "CONVEX-AGENT" && return
+    [[ "$files" =~ agents/vps-monitor ]] && echo "VPS-MONITOR" && return
+    [[ "$files" =~ \.claude/skills/vf-server ]] && echo "VF-SERVER" && return
+    [[ "$files" =~ \.claude/skills/wa-monitor ]] && echo "WA-MONITOR" && return
+    [[ "$files" =~ \.claude/skills/database ]] && echo "DATABASE" && return
+    [[ "$files" =~ qfield|QField ]] && echo "QFIELD" && return
+    [[ "$files" =~ harness/ ]] && echo "HARNESS" && return
+    [[ "$files" =~ orchestrator/ ]] && echo "ORCHESTRATOR" && return
+    [[ "$files" =~ convex/ ]] && echo "CONVEX-BACKEND" && return
+    [[ "$files" =~ docs/ ]] && echo "DOCS" && return
+    [[ "$files" =~ tests/ ]] && echo "TESTS" && return
+    [[ "$files" =~ \.claude/ ]] && echo "CLAUDE-CONFIG" && return
+    [[ "$files" =~ deploy/ ]] && echo "DEPLOYMENT" && return
+
+    echo "CORE"
+}
+
+# Function to get module color
+get_color() {
+    case "$1" in
+        "NEON-AGENT"|"CONVEX-AGENT"|"VPS-MONITOR") echo "$GREEN" ;;
+        "VF-SERVER"|"WA-MONITOR") echo "$BLUE" ;;
+        "QFIELD") echo "$YELLOW" ;;
+        "DOCS") echo "$MAGENTA" ;;
+        "TESTS") echo "$CYAN" ;;
+        *) echo "$RESET" ;;
+    esac
+}
+
+# Get unique dates from last N days
+dates=$(git log --since="$DAYS days ago" --pretty=format:"%ad" --date=short 2>/dev/null | sort -ur)
+
+if [ -z "$dates" ]; then
+    echo "No commits found in the last $DAYS days"
+    exit 0
+fi
+
+# Process each date
+for date in $dates; do
+    # Get today/yesterday labels
+    if [ "$date" == "$(date +%Y-%m-%d)" ]; then
+        date_label="$date (Today)"
+    elif [ "$date" == "$(date -d yesterday +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)" ]; then
+        date_label="$date (Yesterday)"
+    else
+        date_label="$date"
+    fi
+
+    echo -e "${BOLD}█ $date_label${RESET}"
+
+    # Get all commits for this date with file changes
+    commits=$(git log --since="$date 00:00:00" --until="$date 23:59:59" \
+        --pretty=format:"%H|%ad|%an|%s" --date=format:"%H:%M" 2>/dev/null)
+
+    # Store commits by module
+    declare -A module_commits
+
+    while IFS= read -r commit; do
+        if [ -n "$commit" ]; then
+            hash=$(echo "$commit" | cut -d'|' -f1)
+            time=$(echo "$commit" | cut -d'|' -f2)
+            author=$(echo "$commit" | cut -d'|' -f3)
+            message=$(echo "$commit" | cut -d'|' -f4)
+
+            # Get files changed in this commit
+            files=$(git diff-tree --no-commit-id --name-only -r "$hash" 2>/dev/null | tr '\n' ' ')
+
+            # Determine module
+            module=$(get_module "$files")
+
+            # Format author name (shorten if needed)
+            author_short="${author:0:10}"
+
+            # Store in module array
+            if [ -n "${module_commits[$module]}" ]; then
+                module_commits[$module]="${module_commits[$module]}\n│  ├─ $time [$author_short] $message"
+            else
+                module_commits[$module]="│  ├─ $time [$author_short] $message"
+            fi
+        fi
+    done <<< "$commits"
+
+    # Sort modules and display
+    modules_sorted=$(printf '%s\n' "${!module_commits[@]}" | sort)
+    module_count=$(echo "$modules_sorted" | wc -l)
+    current=0
+
+    for module in $modules_sorted; do
+        current=$((current + 1))
+        color=$(get_color "$module")
+
+        if [ $current -eq $module_count ]; then
+            echo -e "└─ ${color}${module}${RESET}"
+            # Fix the last entry to use └─ instead of ├─
+            echo -e "${module_commits[$module]}" | sed 's/├─/└─/g'
+        else
+            echo -e "├─ ${color}${module}${RESET}"
+            echo -e "${module_commits[$module]}"
+        fi
+    done
+
+    unset module_commits
+    echo ""
+done
+
+# Summary stats
+echo -e "${BOLD}─────────────────────────────────────────────────────────${RESET}"
+total_commits=$(git log --since="$DAYS days ago" --oneline 2>/dev/null | wc -l)
+total_authors=$(git log --since="$DAYS days ago" --pretty=format:"%an" 2>/dev/null | sort -u | wc -l)
+total_files=$(git log --since="$DAYS days ago" --name-only --pretty=format: 2>/dev/null | sort -u | grep -v '^$' | wc -l)
+
+echo -e "📊 ${BOLD}Summary:${RESET} $total_commits commits, $total_authors authors, $total_files files touched"
+echo ""
+
+# Optional: Show who did what percentage
+echo -e "${BOLD}👥 Contributors:${RESET}"
+git log --since="$DAYS days ago" --pretty=format:"%an" 2>/dev/null | \
+    sort | uniq -c | sort -rn | \
+    awk '{printf "   • %-15s %3d commits\n", $2, $1}'

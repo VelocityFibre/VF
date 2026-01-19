@@ -1,0 +1,49 @@
+[Unit]
+Description=QFieldCloud Worker Service
+Requires=docker.service
+After=docker.service network-online.target
+StartLimitIntervalSec=300
+StartLimitBurst=3
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=30
+User=root
+WorkingDirectory=/home/louisdup/VF/Apps/QFieldCloud
+
+# Ensure database is ready before starting worker
+ExecStartPre=/bin/bash -c 'until docker ps | grep -E "db|postgres"; do echo "Waiting for database..."; sleep 5; done'
+ExecStartPre=/bin/sleep 10
+
+# Remove any existing worker container
+ExecStartPre=-/usr/bin/docker stop qfieldcloud-worker
+ExecStartPre=-/usr/bin/docker rm qfieldcloud-worker
+
+# Start worker with correct configuration
+ExecStart=/bin/bash -c '\
+  DB_CONTAINER=$(docker ps --format "{{.Names}}" | grep -E "db|postgres" | head -1) && \
+  docker run --rm \
+    --name qfieldcloud-worker \
+    --user root \
+    --network qfieldcloud_default \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    -v /home/louisdup/VF/Apps/QFieldCloud/mediafiles:/usr/src/app/mediafiles \
+    -e DJANGO_SETTINGS_MODULE=qfieldcloud.settings \
+    -e POSTGRES_HOST=$DB_CONTAINER \
+    -e POSTGRES_DB=qfieldcloud_db \
+    -e POSTGRES_USER=qfieldcloud_db_admin \
+    -e POSTGRES_PASSWORD=3shJDd2r7Twwkehb \
+    qfieldcloud-worker_wrapper:latest \
+    python manage.py dequeue'
+
+# Stop gracefully
+ExecStop=/usr/bin/docker stop qfieldcloud-worker
+TimeoutStopSec=30
+
+# Log to journal
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target

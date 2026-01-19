@@ -1,0 +1,147 @@
+# Data Layer SLA Configuration - Phase 2.5
+#
+# Establishes freshness guarantees for data layer components to ensure
+# agents make decisions on fresh, reliable data.
+#
+# City Planning Analogy: Like municipal water quality standards - citizens
+# trust the tap water because there are enforced SLA guarantees.
+#
+# Part of Vibe Coding Transformation - see docs/VIBE_CODING_TRANSFORMATION.md
+
+slas:
+  # Database Synchronization
+  neon_to_convex_max_delay: 300  # 5 minutes (seconds)
+  convex_query_max_latency: 2     # 2 seconds
+
+  # VLM Pipeline (Vision Language Model)
+  vlm_image_max_age: 600          # 10 minutes (images in processing queue)
+  vlm_processing_max_time: 30     # 30 seconds per image
+  vlm_server_max_response: 10     # 10 seconds per API call
+
+  # QField Integration (Field data collection)
+  qfield_sync_interval: 180       # 3 minutes (max time between syncs)
+  qfield_webhook_max_delay: 10    # 10 seconds (webhook processing)
+  qfield_worker_max_idle: 300     # 5 minutes (worker inactive time)
+
+  # WhatsApp Monitor (DR photo reviews)
+  wa_message_max_delay: 60        # 1 minute (message delivery)
+  wa_image_upload_max_time: 30    # 30 seconds (image upload to storage)
+  wa_session_max_age: 86400       # 24 hours (re-auth if older)
+
+  # Foto AI Reviews (VLM-based photo evaluation)
+  foto_review_max_age: 1800       # 30 minutes (evaluation results)
+  foto_evaluation_max_time: 120   # 2 minutes (complete evaluation)
+
+alerts:
+  # Database Sync Alerts
+  - name: neon_convex_sync_delayed
+    condition: neon_sync_delay > 300
+    action: slack_webhook
+    channel: "#fibreflow-alerts"
+    severity: warning
+    message: "⚠️ Neon→Convex sync delayed: {delay}s (SLA: 300s)"
+
+  - name: neon_convex_sync_critical
+    condition: neon_sync_delay > 600
+    action: slack_webhook
+    channel: "#fibreflow-critical"
+    severity: critical
+    message: "🚨 CRITICAL: Neon→Convex sync severely delayed: {delay}s (SLA: 300s)"
+
+  # VLM Pipeline Alerts
+  - name: vlm_stale_images
+    condition: vlm_image_age > 600
+    action: slack_webhook
+    channel: "#fibreflow-alerts"
+    severity: error
+    message: "🚨 VLM processing stale images: {age}s old (SLA: 600s)"
+
+  - name: vlm_slow_processing
+    condition: vlm_processing_time > 30
+    action: slack_webhook
+    channel: "#fibreflow-alerts"
+    severity: warning
+    message: "⚠️ VLM processing slow: {time}s per image (SLA: 30s)"
+
+  - name: vlm_server_down
+    condition: vlm_server_unreachable
+    action: slack_webhook
+    channel: "#fibreflow-critical"
+    severity: critical
+    message: "🚨 CRITICAL: VLM server unreachable at {url}"
+
+  # QField Sync Alerts
+  - name: qfield_sync_delayed
+    condition: qfield_sync_interval > 180
+    action: slack_webhook
+    channel: "#fibreflow-alerts"
+    severity: warning
+    message: "⚠️ QField sync interval exceeded: {interval}s (SLA: 180s)"
+
+  - name: qfield_worker_idle
+    condition: qfield_worker_idle > 300
+    action: slack_webhook
+    channel: "#fibreflow-alerts"
+    severity: warning
+    message: "⚠️ QField worker idle for {idle}s (SLA: 300s)"
+
+  # WhatsApp Monitor Alerts
+  - name: wa_message_delayed
+    condition: wa_message_delay > 60
+    action: slack_webhook
+    channel: "#fibreflow-alerts"
+    severity: warning
+    message: "⚠️ WhatsApp message delayed: {delay}s (SLA: 60s)"
+
+  - name: wa_session_expired
+    condition: wa_session_age > 86400
+    action: slack_webhook
+    channel: "#fibreflow-critical"
+    severity: critical
+    message: "🚨 WhatsApp session expired: {age}s old (SLA: 86400s). RE-AUTH REQUIRED!"
+
+  # Foto AI Review Alerts
+  - name: foto_review_stale
+    condition: foto_review_age > 1800
+    action: slack_webhook
+    channel: "#fibreflow-alerts"
+    severity: warning
+    message: "⚠️ Foto AI review results stale: {age}s old (SLA: 1800s)"
+
+monitoring:
+  # How often to check SLAs (seconds)
+  check_interval: 60
+
+  # How long to keep violation metrics (days)
+  retention_days: 30
+
+  # Dashboard configuration
+  dashboard_enabled: true
+  dashboard_port: 8888
+
+  # Health check endpoint
+  health_check_port: 8889
+
+  # Metrics storage
+  metrics_file: "harness/sla_metrics.jsonl"
+  violations_file: "harness/sla_violations.jsonl"
+
+  # Alert throttling (don't spam same alert)
+  alert_cooldown: 300  # 5 minutes between same alert
+
+# Target SLA compliance (measured over retention period)
+targets:
+  overall_compliance: 0.95  # 95% of checks should pass
+  critical_compliance: 0.99  # 99% for critical SLAs
+
+# Maintenance windows (SLAs suspended during these times)
+maintenance_windows:
+  - name: "Weekly database backup"
+    schedule: "Sunday 02:00-03:00 UTC"
+    affected_slas:
+      - neon_to_convex_max_delay
+      - convex_query_max_latency
+
+  - name: "Monthly system updates"
+    schedule: "First Monday 01:00-02:00 UTC"
+    affected_slas: all

@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WA DR Evaluation - Human Approval Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .controls {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            min-width: 200px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .status {
+            padding: 10px 20px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+        }
+
+        .status.show {
+            display: block;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.loading {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .evaluation-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .evaluation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .dr-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .status-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        .status-pass {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-partial {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-fail {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .metric-label {
+            font-size: 14px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .feedback-section {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .feedback-label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .feedback-message {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+
+        .feedback-editor {
+            width: 100%;
+            min-height: 200px;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .btn-approve {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        }
+
+        .btn-reject {
+            background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+        }
+
+        .btn-edit {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .empty-state h2 {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .empty-state p {
+            color: #999;
+        }
+
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 WA DR Evaluation - Human Approval Interface</h1>
+
+        <div class="controls">
+            <h2>Evaluate DR</h2>
+            <div class="input-group">
+                <input type="text" id="drInput" placeholder="Enter DR Number (e.g., DR1730550)">
+                <button onclick="evaluateDR()">Evaluate</button>
+                <button onclick="refreshEvaluations()">Refresh All</button>
+            </div>
+            <div id="status" class="status"></div>
+        </div>
+
+        <div id="evaluations">
+            <div class="empty-state">
+                <h2>No Evaluations Yet</h2>
+                <p>Enter a DR number above to start evaluating</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Store evaluations
+        let evaluations = [];
+
+        // API configuration - adjust base URL for production
+        const API_BASE_URL = window.location.hostname === 'localhost'
+            ? 'http://localhost:3005'
+            : 'https://app.fibreflow.app';
+
+        async function callEvaluateAPI(drNumber) {
+            try {
+                const response = await fetch(`${API_BASE_URL}/api/foto/evaluate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        dr_number: drNumber
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    return {
+                        success: true,
+                        data: result.data
+                    };
+                } else {
+                    return {
+                        success: false,
+                        error: result.error || result.message || 'Evaluation failed'
+                    };
+                }
+            } catch (error) {
+                console.error('Evaluation API error:', error);
+                return {
+                    success: false,
+                    error: error.message || 'Failed to evaluate DR'
+                };
+            }
+        }
+
+        async function evaluateDR() {
+            const drInput = document.getElementById('drInput');
+            const drNumber = drInput.value.trim();
+            const statusDiv = document.getElementById('status');
+
+            if (!drNumber) {
+                showStatus('Please enter a DR number', 'error');
+                return;
+            }
+
+            if (!drNumber.startsWith('DR')) {
+                showStatus('DR number must start with "DR"', 'error');
+                return;
+            }
+
+            // Show loading status
+            showStatus('Evaluating ' + drNumber + '... This may take up to 3 minutes.', 'loading');
+
+            try {
+                // Call evaluation API
+                const result = await callEvaluateAPI(drNumber);
+
+                if (result.success) {
+                    const evaluation = result.data;
+
+                    // Generate feedback message
+                    const feedback = generateFeedback(evaluation);
+
+                    // Add to evaluations list
+                    const evalData = {
+                        ...evaluation,
+                        feedback: feedback,
+                        timestamp: new Date().toISOString()
+                    };
+
+                    evaluations.unshift(evalData);
+                    renderEvaluations();
+
+                    showStatus('Evaluation complete for ' + drNumber, 'success');
+                    drInput.value = '';
+                } else {
+                    showStatus('Evaluation failed: ' + (result.error || 'Unknown error'), 'error');
+                }
+            } catch (error) {
+                showStatus('Error: ' + error.message, 'error');
+            }
+        }
+
+        function generateFeedback(evaluation) {
+            const status = evaluation.overall_status;
+            let emoji, header;
+
+            if (status === 'PASS') {
+                emoji = '✅';
+                header = emoji + ' *QA PASSED*';
+            } else if (status === 'PARTIAL') {
+                emoji = '⚠️';
+                header = emoji + ' *QA PARTIAL PASS*';
+            } else {
+                emoji = '❌';
+                header = emoji + ' *QA FAILED*';
+            }
+
+            let message = header + '\n';
+            message += 'DR: ' + evaluation.dr_number + '\n\n';
+            message += '📊 Overall Score: ' + evaluation.average_score + '/10\n';
+            message += '✔️ Steps Passed: ' + evaluation.passed_steps + '/' + evaluation.total_steps + '\n\n';
+
+            if (evaluation.steps && evaluation.steps.length > 0) {
+                message += '*Detailed Results:*\n';
+                evaluation.steps.forEach(step => {
+                    const stepEmoji = step.passed ? '✓' : '✗';
+                    message += stepEmoji + ' ' + step.name + ': ' + step.score + '/10\n';
+                    if (step.issues) {
+                        step.issues.forEach(issue => {
+                            message += '  ↳ ' + issue + '\n';
+                        });
+                    }
+                });
+            }
+
+            message += '\n*Recommendations:*\n';
+            if (status === 'PASS') {
+                message += '✅ Good work! All quality standards met.\n';
+            } else if (status === 'PARTIAL') {
+                message += '⚠️ Please review and address the noted issues.\n';
+            } else {
+                message += '❌ Significant issues found. Please rework and resubmit.\n';
+            }
+
+            return message;
+        }
+
+        function renderEvaluations() {
+            const container = document.getElementById('evaluations');
+
+            if (evaluations.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h2>No Evaluations Yet</h2>
+                        <p>Enter a DR number above to start evaluating</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = evaluations.map((eval, index) => `
+                <div class="evaluation-card">
+                    <div class="evaluation-header">
+                        <div class="dr-number">${eval.dr_number}</div>
+                        <div class="status-badge status-${eval.overall_status.toLowerCase()}">${eval.overall_status}</div>
+                    </div>
+
+                    <div class="metrics">
+                        <div class="metric">
+                            <div class="metric-value">${eval.average_score}/10</div>
+                            <div class="metric-label">Score</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${eval.passed_steps}/${eval.total_steps}</div>
+                            <div class="metric-label">Steps Passed</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">${eval.feedback_sent ? '✅' : '⏳'}</div>
+                            <div class="metric-label">Feedback Sent</div>
+                        </div>
+                    </div>
+
+                    <div class="feedback-section">
+                        <div class="feedback-label">WhatsApp Feedback Message:</div>
+                        <div class="feedback-message" id="feedback-display-${index}">${eval.feedback}</div>
+                        <textarea class="feedback-editor" id="feedback-edit-${index}" style="display:none;">${eval.feedback}</textarea>
+
+                        <div class="action-buttons">
+                            <button class="btn-edit" id="edit-btn-${index}" onclick="toggleEdit(${index})">Edit Message</button>
+                            <button class="btn-approve" id="save-btn-${index}" style="display:none;" onclick="saveFeedback(${index})">Save Changes</button>
+                            <button class="btn-approve" onclick="approveFeedback(${index})">Approve & Send</button>
+                            <button class="btn-reject" onclick="rejectFeedback(${index})">Reject</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleEdit(index) {
+            const display = document.getElementById('feedback-display-' + index);
+            const editor = document.getElementById('feedback-edit-' + index);
+            const editBtn = document.getElementById('edit-btn-' + index);
+            const saveBtn = document.getElementById('save-btn-' + index);
+
+            if (editor.style.display === 'none') {
+                display.style.display = 'none';
+                editor.style.display = 'block';
+                editBtn.style.display = 'none';
+                saveBtn.style.display = 'inline-block';
+            } else {
+                display.style.display = 'block';
+                editor.style.display = 'none';
+                editBtn.style.display = 'inline-block';
+                saveBtn.style.display = 'none';
+            }
+        }
+
+        function saveFeedback(index) {
+            const editor = document.getElementById('feedback-edit-' + index);
+            evaluations[index].feedback = editor.value;
+            renderEvaluations();
+            showStatus('Feedback message updated', 'success');
+        }
+
+        async function approveFeedback(index) {
+            const eval = evaluations[index];
+
+            showStatus('Sending feedback for ' + eval.dr_number + '...', 'loading');
+
+            try {
+                // Send WhatsApp feedback via API
+                const response = await fetch(`${API_BASE_URL}/api/foto/feedback`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        dr_number: eval.dr_number,
+                        message: eval.feedback,
+                        evaluation: eval
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    eval.feedback_sent = true;
+                    renderEvaluations();
+                    showStatus('WhatsApp feedback sent successfully for ' + eval.dr_number, 'success');
+                } else {
+                    throw new Error(result.error || result.message || 'Failed to send feedback');
+                }
+            } catch (error) {
+                console.error('Feedback API error:', error);
+                showStatus('Error: ' + error.message + '. Please check server connection.', 'error');
+            }
+        }
+
+        function rejectFeedback(index) {
+            if (confirm('Are you sure you want to reject this evaluation?')) {
+                evaluations.splice(index, 1);
+                renderEvaluations();
+                showStatus('Evaluation rejected', 'success');
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = 'status show ' + type;
+            statusDiv.textContent = message;
+
+            if (type !== 'loading') {
+                setTimeout(() => {
+                    statusDiv.classList.remove('show');
+                }, 5000);
+            }
+        }
+
+        async function refreshEvaluations() {
+            showStatus('Refreshing evaluations...', 'loading');
+
+            try {
+                // Fetch all evaluations from server
+                const response = await fetch(`${API_BASE_URL}/api/foto/evaluations`);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    // Filter for pending feedback
+                    const pendingEvals = result.data.filter(eval => !eval.feedback_sent);
+
+                    // Add to evaluations list if not already present
+                    pendingEvals.forEach(serverEval => {
+                        const exists = evaluations.find(e => e.dr_number === serverEval.dr_number);
+                        if (!exists) {
+                            const feedback = generateFeedback(serverEval);
+                            evaluations.unshift({
+                                ...serverEval,
+                                feedback: feedback,
+                                timestamp: new Date().toISOString()
+                            });
+                        }
+                    });
+
+                    renderEvaluations();
+                    showStatus('Evaluations refreshed', 'success');
+                } else {
+                    showStatus('No evaluations found', 'success');
+                }
+            } catch (error) {
+                console.error('Refresh error:', error);
+                showStatus('Error refreshing: ' + error.message, 'error');
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('drInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                evaluateDR();
+            }
+        });
+
+        // Load evaluations on page load
+        window.addEventListener('DOMContentLoaded', (event) => {
+            console.log('Initializing WA DR Monitor interface...');
+            console.log('API Base URL:', API_BASE_URL);
+
+            // Optionally refresh evaluations on load
+            // refreshEvaluations();
+        });
+    </script>
+</body>
+</html>

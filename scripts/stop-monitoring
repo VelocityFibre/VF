@@ -1,0 +1,25 @@
+#!/bin/bash
+# Stop the proactive monitoring daemon
+
+PID_FILE="/tmp/claude-monitor-daemon.pid"
+DASH_PID_FILE="/tmp/claude-monitor-dashboard.pid"
+
+if [ -f "$PID_FILE" ]; then
+    PID=$(cat "$PID_FILE")
+    if kill -0 "$PID" 2>/dev/null; then
+        kill "$PID"
+        echo "✅ Stopped monitor daemon (PID: $PID)"
+    fi
+    rm "$PID_FILE"
+fi
+
+if [ -f "$DASH_PID_FILE" ]; then
+    PID=$(cat "$DASH_PID_FILE")
+    if kill -0 "$PID" 2>/dev/null; then
+        kill "$PID"
+        echo "✅ Stopped dashboard (PID: $PID)"
+    fi
+    rm "$DASH_PID_FILE"
+fi
+
+echo "🛑 Monitoring stopped"

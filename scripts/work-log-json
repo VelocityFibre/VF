@@ -1,0 +1,104 @@
+#!/bin/bash
+# work-log-json - Output work log as JSON for web UI
+
+DAYS=${1:-7}
+
+# Function to determine module from file paths
+get_module() {
+    local files="$1"
+
+    [[ "$files" =~ agents/neon ]] && echo "NEON-AGENT" && return
+    [[ "$files" =~ agents/convex ]] && echo "CONVEX-AGENT" && return
+    [[ "$files" =~ agents/vps-monitor ]] && echo "VPS-MONITOR" && return
+    [[ "$files" =~ \.claude/skills/vf-server ]] && echo "VF-SERVER" && return
+    [[ "$files" =~ \.claude/skills/wa-monitor ]] && echo "WA-MONITOR" && return
+    [[ "$files" =~ \.claude/skills/database ]] && echo "DATABASE" && return
+    [[ "$files" =~ qfield|QField ]] && echo "QFIELD" && return
+    [[ "$files" =~ harness/ ]] && echo "HARNESS" && return
+    [[ "$files" =~ orchestrator/ ]] && echo "ORCHESTRATOR" && return
+    [[ "$files" =~ convex/ ]] && echo "CONVEX-BACKEND" && return
+    [[ "$files" =~ docs/ ]] && echo "DOCS" && return
+    [[ "$files" =~ tests/ ]] && echo "TESTS" && return
+    [[ "$files" =~ deploy/ ]] && echo "DEPLOYMENT" && return
+
+    echo "CORE"
+}
+
+echo '{'
+echo "  \"days\": $DAYS,"
+echo '  "generated": "'$(date -Iseconds)'",'
+echo '  "entries": ['
+
+first_date=true
+dates=$(git log --since="$DAYS days ago" --pretty=format:"%ad" --date=short 2>/dev/null | sort -ur)
+
+for date in $dates; do
+    [ "$first_date" = false ] && echo ','
+    first_date=false
+
+    # Get label
+    if [ "$date" == "$(date +%Y-%m-%d)" ]; then
+        label="Today"
+    elif [ "$date" == "$(date -d yesterday +%Y-%m-%d 2>/dev/null || date -v-1d +%Y-%m-%d)" ]; then
+        label="Yesterday"
+    else
+        label=""
+    fi
+
+    echo '    {'
+    echo "      \"date\": \"$date\","
+    echo "      \"label\": \"$label\","
+    echo '      "modules": {'
+
+    # Get all commits for this date
+    commits=$(git log --since="$date 00:00:00" --until="$date 23:59:59" \
+        --pretty=format:"%H|%ad|%an|%s" --date=format:"%H:%M" 2>/dev/null)
+
+    # Group by module
+    declare -A module_commits
+
+    while IFS= read -r commit; do
+        if [ -n "$commit" ]; then
+            hash=$(echo "$commit" | cut -d'|' -f1)
+            time=$(echo "$commit" | cut -d'|' -f2)
+            author=$(echo "$commit" | cut -d'|' -f3)
+            message=$(echo "$commit" | cut -d'|' -f4 | sed 's/"/\\"/g')
+
+            files=$(git diff-tree --no-commit-id --name-only -r "$hash" 2>/dev/null | tr '\n' ' ')
+            module=$(get_module "$files")
+
+            if [ -n "${module_commits[$module]}" ]; then
+                module_commits[$module]="${module_commits[$module]},{\"time\":\"$time\",\"author\":\"$author\",\"message\":\"$message\"}"
+            else
+                module_commits[$module]="{\"time\":\"$time\",\"author\":\"$author\",\"message\":\"$message\"}"
+            fi
+        fi
+    done <<< "$commits"
+
+    # Output modules
+    first_module=true
+    for module in "${!module_commits[@]}"; do
+        [ "$first_module" = false ] && echo ','
+        first_module=false
+        echo "        \"$module\": [${module_commits[$module]}]"
+    done
+
+    unset module_commits
+    echo '      }'
+    echo -n '    }'
+done
+
+echo ''
+echo '  ],'
+
+# Add summary stats
+total_commits=$(git log --since="$DAYS days ago" --oneline 2>/dev/null | wc -l)
+total_authors=$(git log --since="$DAYS days ago" --pretty=format:"%an" 2>/dev/null | sort -u | wc -l)
+total_files=$(git log --since="$DAYS days ago" --name-only --pretty=format: 2>/dev/null | sort -u | grep -v '^$' | wc -l)
+
+echo '  "summary": {'
+echo "    \"commits\": $total_commits,"
+echo "    \"authors\": $total_authors,"
+echo "    \"files\": $total_files"
+echo '  }'
+echo '}'

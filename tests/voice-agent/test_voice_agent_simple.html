@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FibreFlow Voice Agent Test</title>
+    <script src="https://unpkg.com/livekit-client@2.5.9/dist/livekit-client.umd.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+        button:hover:not(:disabled) {
+            background: #5568d3;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #status {
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status-disconnected {
+            background: #fee;
+            color: #c33;
+        }
+        .status-connecting {
+            background: #ffc;
+            color: #963;
+        }
+        .status-connected {
+            background: #efe;
+            color: #363;
+        }
+        .info {
+            background: #f0f8ff;
+            padding: 15px;
+            border-left: 4px solid #667eea;
+            margin: 20px 0;
+        }
+        .error {
+            background: #ffe0e0;
+            padding: 15px;
+            border-left: 4px solid #c33;
+            margin: 20px 0;
+            display: none;
+        }
+        #log {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        .log-entry {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎙️ FibreFlow Voice Agent Test</h1>
+
+        <div id="status" class="status-disconnected">
+            Status: Disconnected
+        </div>
+
+        <div class="info">
+            <strong>Instructions:</strong>
+            <ol>
+                <li>Click "Connect to Voice Agent"</li>
+                <li>Allow microphone access when prompted</li>
+                <li>Start speaking - the Grok voice agent will respond!</li>
+                <li>Wait ~200ms for responses</li>
+            </ol>
+        </div>
+
+        <div id="error" class="error"></div>
+
+        <div class="audio-controls">
+            <button id="connectBtn" onclick="connect()">Connect to Voice Agent</button>
+            <button id="disconnectBtn" onclick="disconnect()" disabled>Disconnect</button>
+        </div>
+
+        <audio id="remoteAudio" autoplay></audio>
+
+        <div id="log"></div>
+    </div>
+
+    <script>
+        let room = null;
+        const LiveKit = window.LivekitClient || window.LiveKit || window.livekit;
+
+        function log(message) {
+            const logDiv = document.getElementById('log');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(entry);
+            logDiv.scrollTop = logDiv.scrollHeight;
+            console.log(message);
+        }
+
+        function updateStatus(message, className) {
+            const statusEl = document.getElementById('status');
+            statusEl.textContent = message;
+            statusEl.className = className;
+            log(message);
+        }
+
+        function showError(message) {
+            const errorEl = document.getElementById('error');
+            errorEl.textContent = '❌ Error: ' + message;
+            errorEl.style.display = 'block';
+            log('ERROR: ' + message);
+        }
+
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+
+        async function connect() {
+            try {
+                hideError();
+                updateStatus('Status: Getting token...', 'status-connecting');
+                document.getElementById('connectBtn').disabled = true;
+
+                // Get token from backend
+                log('Requesting token from server...');
+                const response = await fetch('/token');
+                if (!response.ok) {
+                    throw new Error('Failed to get token: ' + response.statusText);
+                }
+                const data = await response.json();
+                log(`Got token for room: ${data.room}`);
+
+                // Request microphone permission
+                updateStatus('Status: Requesting microphone...', 'status-connecting');
+                log('Requesting microphone access...');
+                await navigator.mediaDevices.getUserMedia({ audio: true });
+                log('✅ Microphone access granted');
+
+                // Create room
+                updateStatus('Status: Connecting to LiveKit...', 'status-connecting');
+                log('Creating LiveKit room...');
+                room = new LiveKit.Room({
+                    adaptiveStream: true,
+                    dynacast: true,
+                });
+
+                // Set up event handlers
+                room.on('connected', () => {
+                    log('✅ Connected to room!');
+                    updateStatus('Status: Connected! Waiting for agent...', 'status-connected');
+                });
+
+                room.on('trackSubscribed', (track, publication, participant) => {
+                    log(`Track subscribed: ${track.kind} from ${participant.identity}`);
+                    if (track.kind === 'audio') {
+                        const audioElement = document.getElementById('remoteAudio');
+                        track.attach(audioElement);
+                        log('✅ Agent audio attached - you should hear responses!');
+                    }
+                });
+
+                room.on('participantConnected', (participant) => {
+                    log(`✅ Participant joined: ${participant.identity}`);
+                    if (participant.identity.includes('agent') || participant.identity.includes('grok')) {
+                        updateStatus('Status: 🎉 Voice Agent Connected! Start speaking...', 'status-connected');
+                    }
+                });
+
+                room.on('participantDisconnected', (participant) => {
+                    log(`❌ Participant left: ${participant.identity}`);
+                });
+
+                room.on('disconnected', () => {
+                    log('Disconnected from room');
+                    updateStatus('Status: Disconnected', 'status-disconnected');
+                    document.getElementById('connectBtn').disabled = false;
+                    document.getElementById('disconnectBtn').disabled = true;
+                });
+
+                room.on('reconnecting', () => {
+                    log('Reconnecting...');
+                    updateStatus('Status: Reconnecting...', 'status-connecting');
+                });
+
+                // Connect to room
+                log(`Connecting to ${data.url} / ${data.room}...`);
+                await room.connect(data.url, data.token);
+                log('✅ Room connected successfully!');
+
+                // Publish microphone
+                updateStatus('Status: Enabling microphone...', 'status-connected');
+                log('Publishing microphone track...');
+                await room.localParticipant.setMicrophoneEnabled(true);
+                log('✅ Microphone enabled and published');
+
+                updateStatus('Status: 🎙️ Ready! Start speaking...', 'status-connected');
+                document.getElementById('disconnectBtn').disabled = false;
+
+            } catch (error) {
+                console.error('Connection failed:', error);
+                showError(error.message);
+                updateStatus('Status: Connection Failed', 'status-disconnected');
+                document.getElementById('connectBtn').disabled = false;
+            }
+        }
+
+        function disconnect() {
+            if (room) {
+                log('Disconnecting...');
+                room.disconnect();
+                room = null;
+            }
+            updateStatus('Status: Disconnected', 'status-disconnected');
+            document.getElementById('connectBtn').disabled = false;
+            document.getElementById('disconnectBtn').disabled = true;
+        }
+
+        // Clean up on page unload
+        window.addEventListener('beforeunload', () => {
+            if (room) {
+                room.disconnect();
+            }
+        });
+
+        // Check if LiveKit loaded
+        if (!LiveKit) {
+            showError('LiveKit client library failed to load');
+            log('ERROR: LiveKit not found in window object');
+        } else {
+            log('LiveKit client loaded successfully');
+        }
+    </script>
+</body>
+</html>

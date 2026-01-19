@@ -1,0 +1,11 @@
+[1/9/26, 10:30 AM] Louis: TASK: Set up the FF Team Bridge for monitoring @hein
+[1/9/26, 10:31 AM] Hein: Sounds good! I'll help test it
+[1/9/26, 10:32 AM] Louis: @claude can you check if the wa-monitor service is running?
+[1/9/26, 10:33 AM] Hein: TODO: Review the message extraction patterns
+[1/9/26, 10:34 AM] Louis: DECIDED: We'll use this for all dev communications going forward
+[1/9/26, 10:35 AM] Hein: I'll deploy the updates to production after testing
+[1/9/26, 10:36 AM] Louis: BUG: The authentication is failing on VF Server
+[1/9/26, 10:37 AM] Hein: Let me check the SSH keys
+[1/9/26, 10:38 AM] Louis: IMPORTANT: We need to ensure both our Claude instances can access this
+[1/9/26, 10:39 AM] Hein: Louis will configure the database schema
+[1/9/26, 10:40 AM] Louis: Can Hein also update the documentation when done?

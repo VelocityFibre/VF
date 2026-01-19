@@ -1,0 +1,39 @@
+#!/bin/bash
+# Simple log checker - just shows what's happening
+
+echo "📊 Recent Activity Check"
+echo "======================="
+echo ""
+
+# Check VF server logs
+echo "🖥️  VF Server (last 5 minutes):"
+if [ -f /tmp/next_vf.log ]; then
+    tail -20 /tmp/next_vf.log | grep -i error || echo "  ✅ No errors"
+else
+    echo "  ℹ️  No VF server log found"
+fi
+echo ""
+
+# Check QField worker
+echo "🔄 QField Worker:"
+docker logs qfieldcloud-worker --tail 20 --since 5m 2>&1 | grep -E "(error|fail|success|complete)" | tail -5 || echo "  ℹ️  No recent activity"
+echo ""
+
+# Check monitor alerts if they exist
+if [ -f logs/monitor-alerts.log ]; then
+    ALERT_COUNT=$(wc -l < logs/monitor-alerts.log)
+    if [ "$ALERT_COUNT" -gt 0 ]; then
+        echo "🚨 Recent Alerts:"
+        tail -5 logs/monitor-alerts.log
+    fi
+fi
+echo ""
+
+# Check disk space
+echo "💾 Disk Space:"
+df -h / | tail -1 | awk '{print "  Used: "$5" of "$2}'
+echo ""
+
+# Check running processes
+echo "⚙️  Key Processes:"
+ps aux | grep -E "(next-server|cloudflared|qfield)" | grep -v grep | awk '{print "  "$11}' | sort -u || echo "  ℹ️  No key processes running"

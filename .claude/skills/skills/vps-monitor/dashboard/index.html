@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPS Monitor - FibreFlow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: normal;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timestamp {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .panel {
+            border: 1px solid #333;
+            padding: 15px;
+            background: #0a0a0a;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .resource-item {
+            margin: 10px 0;
+        }
+
+        .resource-label {
+            color: #aaa;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #111;
+            border: 1px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            transition: width 0.3s, background 0.3s;
+        }
+
+        .progress-fill.ok { background: #0f0; }
+        .progress-fill.warning { background: #ff0; }
+        .progress-fill.critical { background: #f00; }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+            font-weight: bold;
+            font-size: 11px;
+            text-shadow: 0 0 2px #fff;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #111;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: #aaa;
+        }
+
+        .status-value {
+            font-weight: bold;
+        }
+
+        .status-ok { color: #0f0; }
+        .status-warning { color: #ff0; }
+        .status-error { color: #f00; }
+        .status-info { color: #0af; }
+
+        .button {
+            background: none;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: inherit;
+            margin-right: 10px;
+            transition: all 0.3s;
+            font-size: 12px;
+        }
+
+        .button:hover {
+            background: #111;
+            border-color: #666;
+        }
+
+        .button.active {
+            background: #0f0;
+            color: #000;
+            border-color: #0f0;
+        }
+
+        .button.danger {
+            border-color: #f00;
+            color: #f00;
+            padding: 4px 8px;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        .button.danger:hover {
+            background: #f00;
+            color: #000;
+        }
+
+        .restart-btn {
+            display: none;
+        }
+
+        .status-item.service-failed .restart-btn {
+            display: inline-block;
+        }
+
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .log-viewer {
+            background: #000;
+            border: 1px solid #333;
+            padding: 15px;
+            margin-top: 20px;
+            height: 150px;
+            overflow-y: auto;
+            font-size: 12px;
+        }
+
+        .log-line {
+            margin: 2px 0;
+            white-space: pre-wrap;
+        }
+
+        .log-line.info { color: #0af; }
+        .log-line.warning { color: #ff0; }
+        .log-line.error { color: #f00; }
+        .log-line.success { color: #0f0; }
+
+        .refresh-indicator {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #0f0;
+            border-radius: 50%;
+            margin-left: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        .metric-group {
+            display: flex;
+            justify-content: space-around;
+            margin: 15px 0;
+        }
+
+        .metric {
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 20px;
+            font-weight: bold;
+            display: block;
+        }
+
+        .metric-label {
+            font-size: 11px;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            VPS MONITOR - FIBREFLOW
+            <span class="timestamp">
+                <span id="current-time"></span>
+                <span class="refresh-indicator"></span>
+            </span>
+        </h1>
+
+        <div class="controls">
+            <button class="button" onclick="refreshData()">REFRESH</button>
+            <button class="button active" id="auto-refresh-btn" onclick="toggleAutoRefresh()">AUTO-REFRESH: ON</button>
+            <button class="button" onclick="clearLogs()">CLEAR LOGS</button>
+            <span style="margin-left: 20px; color: #888;">Server: <span id="server-name">Loading...</span></span>
+        </div>
+
+        <div class="grid">
+            <!-- System Resources Panel -->
+            <div class="panel">
+                <div class="panel-title">System Resources</div>
+
+                <div class="resource-item">
+                    <div class="resource-label">CPU Usage</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill ok" id="cpu-fill" style="width: 0%"></div>
+                        <div class="progress-text" id="cpu-text">0%</div>
+                    </div>
+                </div>
+
+                <div class="resource-item">
+                    <div class="resource-label">Memory Usage</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill ok" id="memory-fill" style="width: 0%"></div>
+                        <div class="progress-text" id="memory-text">0%</div>
+                    </div>
+                </div>
+
+                <div class="resource-item">
+                    <div class="resource-label">Disk Usage (/)</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill ok" id="disk-fill" style="width: 0%"></div>
+                        <div class="progress-text" id="disk-text">0%</div>
+                    </div>
+                </div>
+
+                <div class="metric-group">
+                    <div class="metric">
+                        <span class="metric-value status-info" id="load-avg">0.0</span>
+                        <span class="metric-label">Load Avg (1m)</span>
+                    </div>
+                    <div class="metric">
+                        <span class="metric-value status-info" id="uptime">0d 0h</span>
+                        <span class="metric-label">Uptime</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Services Status Panel -->
+            <div class="panel">
+                <div class="panel-title">Services Status</div>
+                <div class="status-item" id="pm2-item">
+                    <span class="status-label">PM2 (fibreflow-prod)</span>
+                    <span>
+                        <span class="status-value" id="pm2-status">CHECKING...</span>
+                        <button class="button danger restart-btn" onclick="restartService('pm2')">RESTART</button>
+                    </span>
+                </div>
+                <div class="status-item" id="nginx-item">
+                    <span class="status-label">Nginx</span>
+                    <span>
+                        <span class="status-value" id="nginx-status">CHECKING...</span>
+                        <button class="button danger restart-btn" onclick="restartService('nginx')">RESTART</button>
+                    </span>
+                </div>
+                <div class="status-item" id="postgres-item">
+                    <span class="status-label">PostgreSQL</span>
+                    <span>
+                        <span class="status-value" id="postgres-status">CHECKING...</span>
+                        <button class="button danger restart-btn" onclick="restartService('postgresql')">RESTART</button>
+                    </span>
+                </div>
+                <div class="status-item" id="docker-item">
+                    <span class="status-label">Docker</span>
+                    <span>
+                        <span class="status-value" id="docker-status">CHECKING...</span>
+                        <button class="button danger restart-btn" onclick="restartService('docker')">RESTART</button>
+                    </span>
+                </div>
+                <div class="status-item" id="tunnel-item">
+                    <span class="status-label">Cloudflare Tunnel</span>
+                    <span>
+                        <span class="status-value" id="tunnel-status">CHECKING...</span>
+                        <button class="button danger restart-btn" onclick="restartService('cloudflared')">RESTART</button>
+                    </span>
+                </div>
+            </div>
+
+            <!-- Network & Security Panel -->
+            <div class="panel">
+                <div class="panel-title">Network & Security</div>
+                <div class="status-item">
+                    <span class="status-label">Firewall (UFW)</span>
+                    <span class="status-value" id="firewall-status">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Open Ports</span>
+                    <span class="status-value" id="open-ports">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Active Connections</span>
+                    <span class="status-value" id="connections">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Failed SSH (24h)</span>
+                    <span class="status-value" id="failed-ssh">-</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Security Updates</span>
+                    <span class="status-value" id="security-updates">-</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Log -->
+        <div class="panel">
+            <div class="panel-title">Activity Log</div>
+            <div class="log-viewer" id="log-viewer">
+                <div class="log-line info">VPS Monitor initialized. Connecting to server...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let autoRefresh = true;
+        let refreshInterval;
+
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleString();
+        }
+
+        function addLog(message, type = 'info') {
+            const viewer = document.getElementById('log-viewer');
+            const line = document.createElement('div');
+            line.className = `log-line ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            line.textContent = `[${timestamp}] ${message}`;
+            viewer.appendChild(line);
+            viewer.scrollTop = viewer.scrollHeight;
+
+            while (viewer.children.length > 50) {
+                viewer.removeChild(viewer.firstChild);
+            }
+        }
+
+        function clearLogs() {
+            const viewer = document.getElementById('log-viewer');
+            viewer.innerHTML = '';
+            addLog('Logs cleared', 'info');
+        }
+
+        function updateProgressBar(fillId, textId, value, label = null) {
+            const fill = document.getElementById(fillId);
+            const text = document.getElementById(textId);
+
+            fill.style.width = value + '%';
+            text.textContent = label || (value + '%');
+
+            fill.className = 'progress-fill';
+            if (value < 70) {
+                fill.classList.add('ok');
+            } else if (value < 85) {
+                fill.classList.add('warning');
+            } else {
+                fill.classList.add('critical');
+            }
+        }
+
+        function updateServiceStatus(elementId, status) {
+            const element = document.getElementById(elementId);
+            element.textContent = status;
+
+            const parentItem = element.closest('.status-item');
+
+            if (status === 'RUNNING' || status === 'ACTIVE' || status === 'online') {
+                element.className = 'status-value status-ok';
+                if (parentItem) parentItem.classList.remove('service-failed');
+            } else if (status === 'WARNING') {
+                element.className = 'status-value status-warning';
+                if (parentItem) parentItem.classList.remove('service-failed');
+            } else {
+                element.className = 'status-value status-error';
+                if (parentItem) parentItem.classList.add('service-failed');
+            }
+        }
+
+        async function refreshData() {
+            addLog('Fetching server status...', 'info');
+
+            try {
+                const response = await fetch('/api/vps/status');
+                const data = await response.json();
+
+                if (!data) {
+                    addLog('No data received from server', 'error');
+                    return;
+                }
+
+                // Update server name
+                document.getElementById('server-name').textContent = data.server_name || 'Unknown';
+
+                // Update system resources
+                if (data.resources) {
+                    updateProgressBar('cpu-fill', 'cpu-text', data.resources.cpu_percent);
+                    updateProgressBar('memory-fill', 'memory-text', data.resources.memory_percent);
+                    updateProgressBar('disk-fill', 'disk-text', data.resources.disk_percent);
+
+                    document.getElementById('load-avg').textContent = data.resources.load_avg || '0.0';
+                    document.getElementById('uptime').textContent = data.resources.uptime || '0d 0h';
+                }
+
+                // Update services
+                if (data.services) {
+                    updateServiceStatus('pm2-status', data.services.pm2 || 'UNKNOWN');
+                    updateServiceStatus('nginx-status', data.services.nginx || 'UNKNOWN');
+                    updateServiceStatus('postgres-status', data.services.postgresql || 'UNKNOWN');
+                    updateServiceStatus('docker-status', data.services.docker || 'UNKNOWN');
+                    updateServiceStatus('tunnel-status', data.services.cloudflared || 'UNKNOWN');
+                }
+
+                // Update network & security
+                if (data.security) {
+                    document.getElementById('firewall-status').textContent = data.security.firewall || '-';
+                    document.getElementById('firewall-status').className = data.security.firewall === 'ACTIVE' ? 'status-value status-ok' : 'status-value status-error';
+
+                    document.getElementById('open-ports').textContent = data.security.open_ports || '-';
+                    document.getElementById('connections').textContent = data.security.connections || '-';
+                    document.getElementById('failed-ssh').textContent = data.security.failed_ssh || '-';
+                    document.getElementById('security-updates').textContent = data.security.updates || '-';
+                }
+
+                addLog('Server status updated successfully', 'success');
+
+            } catch (error) {
+                addLog(`Error fetching status: ${error.message}`, 'error');
+                console.error('Error:', error);
+            }
+        }
+
+        async function restartService(serviceName) {
+            if (!confirm(`Are you sure you want to restart ${serviceName}?`)) {
+                return;
+            }
+
+            addLog(`Restarting ${serviceName}...`, 'warning');
+
+            try {
+                const response = await fetch('/api/vps/restart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ service: serviceName })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    addLog(`${serviceName} restarted successfully`, 'success');
+                    setTimeout(() => refreshData(), 5000);
+                } else {
+                    addLog(`Failed to restart ${serviceName}: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                addLog(`Error restarting ${serviceName}: ${error.message}`, 'error');
+            }
+        }
+
+        function toggleAutoRefresh() {
+            autoRefresh = !autoRefresh;
+            const btn = document.getElementById('auto-refresh-btn');
+
+            if (autoRefresh) {
+                btn.textContent = 'AUTO-REFRESH: ON';
+                btn.className = 'button active';
+                startAutoRefresh();
+                addLog('Auto-refresh enabled', 'success');
+            } else {
+                btn.textContent = 'AUTO-REFRESH: OFF';
+                btn.className = 'button';
+                stopAutoRefresh();
+                addLog('Auto-refresh disabled', 'warning');
+            }
+        }
+
+        function startAutoRefresh() {
+            refreshInterval = setInterval(() => {
+                refreshData();
+            }, 30000);
+        }
+
+        function stopAutoRefresh() {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+            }
+        }
+
+        // Initialize
+        updateTime();
+        setInterval(updateTime, 1000);
+        refreshData();
+
+        if (autoRefresh) {
+            startAutoRefresh();
+        }
+    </script>
+</body>
+</html>

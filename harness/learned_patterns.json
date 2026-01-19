@@ -1,0 +1,97 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-01-05T14:35:31.623347",
+  "total_patterns": 5,
+  "patterns": [
+    {
+      "timestamp": "2026-01-05T14:33:13.791142",
+      "feature_id": 1,
+      "agent_name": "neon-agent",
+      "error_type": "ImportError",
+      "error_pattern": "No module named 'psycopg2'",
+      "affected_module": "agents/neon_agent/database.py",
+      "context": {},
+      "learnings": [
+        "psycopg2-binary must be in requirements.txt",
+        "psycopg2-binary must be installed"
+      ],
+      "suggestions": [
+        "Add 'psycopg2-binary>=2.9.0' to requirements/base.txt",
+        "Add 'psycopg2-binary>=2.9.0' to requirements.txt"
+      ],
+      "frequency": 2,
+      "last_seen": "2026-01-05T14:35:31.622785"
+    },
+    {
+      "timestamp": "2026-01-05T14:33:13.791395",
+      "feature_id": 2,
+      "agent_name": "vlm-evaluator",
+      "error_type": "TimeoutError",
+      "error_pattern": "VLM request exceeded 30s timeout",
+      "affected_module": "agents/vlm_evaluator/image_processor.py",
+      "context": {},
+      "learnings": [
+        "VLM processing needs 60s timeout minimum"
+      ],
+      "suggestions": [
+        "Increase timeout to 60s",
+        "Add retry logic for VLM calls"
+      ],
+      "frequency": 1,
+      "last_seen": "2026-01-05T14:33:13.791397"
+    },
+    {
+      "timestamp": "2026-01-05T14:33:13.791549",
+      "feature_id": 3,
+      "agent_name": "qfield-sync",
+      "error_type": "TestFailure",
+      "error_pattern": "AssertionError: Expected 5 records, got 3",
+      "affected_module": "tests/test_qfield_sync.py",
+      "context": {},
+      "learnings": [
+        "Mock data setup incomplete",
+        "Need to seed test database"
+      ],
+      "suggestions": [
+        "Add test fixtures",
+        "Create setup_test_data() helper"
+      ],
+      "frequency": 1,
+      "last_seen": "2026-01-05T14:33:13.791551"
+    },
+    {
+      "timestamp": "2026-01-05T14:35:31.623138",
+      "feature_id": 2,
+      "agent_name": "neon-agent",
+      "error_type": "TimeoutError",
+      "error_pattern": "Connection timeout after 5s",
+      "affected_module": "agents/neon_agent/database.py",
+      "context": {},
+      "learnings": [
+        "Database connection needs 10s timeout minimum"
+      ],
+      "suggestions": [
+        "Increase connection timeout to 10s"
+      ],
+      "frequency": 1,
+      "last_seen": "2026-01-05T14:35:31.623141"
+    },
+    {
+      "timestamp": "2026-01-05T14:35:31.623318",
+      "feature_id": 3,
+      "agent_name": "neon-agent",
+      "error_type": "AttributeError",
+      "error_pattern": "'NoneType' object has no attribute 'execute'",
+      "affected_module": "agents/neon_agent/database.py",
+      "context": {},
+      "learnings": [
+        "Connection must be checked before executing"
+      ],
+      "suggestions": [
+        "Add connection validation before queries"
+      ],
+      "frequency": 1,
+      "last_seen": "2026-01-05T14:35:31.623321"
+    }
+  ]
+}

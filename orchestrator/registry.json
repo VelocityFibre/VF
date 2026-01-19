@@ -1,0 +1,148 @@
+{
+  "registry_version": "1.1.0",
+  "last_updated": "2025-11-04",
+  "total_agents": 5,
+  "agents": [
+    {
+      "id": "vps-monitor",
+      "name": "VPS Monitor Agent",
+      "path": "agents/vps-monitor",
+      "status": "active",
+      "type": "infrastructure",
+      "description": "Monitors Hostinger VPS (72.60.17.245) for public FibreFlow. For VF Server internal operations, use .claude/skills/vf-server/.",
+      "triggers": [
+        "vps",
+        "server",
+        "monitoring",
+        "cpu",
+        "memory",
+        "disk",
+        "ssh",
+        "hostinger",
+        "srv1092611",
+        "infrastructure",
+        "health check",
+        "performance"
+      ],
+      "capabilities": {
+        "monitoring": ["cpu", "memory", "disk", "network", "processes"],
+        "analysis": ["health_check", "performance_analysis"],
+        "control": ["service_status", "load_average"]
+      },
+      "model": "claude-3-5-haiku-20241022",
+      "avg_response_time": "2-5s",
+      "cost_per_query": "$0.001"
+    },
+    {
+      "id": "neon-database",
+      "name": "Neon PostgreSQL Agent",
+      "path": "agents/neon-database",
+      "status": "active",
+      "type": "database",
+      "description": "Natural language interface to Neon PostgreSQL database. Schema discovery, querying, business intelligence.",
+      "triggers": [
+        "neon",
+        "database",
+        "postgresql",
+        "sql",
+        "query",
+        "data",
+        "schema",
+        "table",
+        "analytics",
+        "business intelligence"
+      ],
+      "capabilities": {
+        "discovery": ["list_tables", "describe_schema", "table_stats"],
+        "querying": ["select", "insert", "update", "delete"],
+        "analysis": ["business_intelligence", "data_insights"]
+      },
+      "model": "claude-3-haiku-20240307",
+      "avg_response_time": "1-3s",
+      "cost_per_query": "$0.001"
+    },
+    {
+      "id": "convex-database",
+      "name": "Convex Database Agent",
+      "path": "agents/convex-database",
+      "status": "active",
+      "type": "database",
+      "description": "Manages Convex backend database. Task management, sync operations, statistics.",
+      "triggers": [
+        "convex",
+        "tasks",
+        "backend",
+        "sync",
+        "task management"
+      ],
+      "capabilities": {
+        "task_management": ["list", "add", "update", "delete"],
+        "search": ["filter", "query"],
+        "analytics": ["statistics", "reporting"]
+      },
+      "model": "claude-3-haiku-20240307",
+      "avg_response_time": "1-3s",
+      "cost_per_query": "$0.001"
+    },
+    {
+      "id": "contractor-agent",
+      "name": "Contractor Agent",
+      "path": "agents/contractor-agent",
+      "status": "active",
+      "type": "data_management",
+      "description": "Specialized agent for managing VF contractors and vendors. List, search, analyze contractor data.",
+      "triggers": [
+        "contractor",
+        "contractors",
+        "vendor",
+        "vendors",
+        "company",
+        "companies",
+        "supplier",
+        "suppliers"
+      ],
+      "capabilities": {
+        "contractor_management": ["list", "search", "add"],
+        "analytics": ["statistics", "active_count", "reporting"]
+      },
+      "model": "claude-3-haiku-20240307",
+      "avg_response_time": "2-4s",
+      "cost_per_query": "$0.001"
+    },
+    {
+      "id": "project-agent",
+      "name": "Project Agent",
+      "path": "agents/project-agent",
+      "status": "active",
+      "type": "data_management",
+      "description": "Specialized agent for managing VF fiber projects. Track status, locations, budgets.",
+      "triggers": [
+        "project",
+        "projects",
+        "site",
+        "sites",
+        "deployment",
+        "rollout",
+        "installation",
+        "fiber deployment"
+      ],
+      "capabilities": {
+        "project_management": ["list", "search", "add"],
+        "analytics": ["statistics", "status_tracking", "reporting"]
+      },
+      "model": "claude-3-haiku-20240307",
+      "avg_response_time": "2-4s",
+      "cost_per_query": "$0.001"
+    }
+  ],
+  "agent_categories": {
+    "infrastructure": ["vps-monitor"],
+    "database": ["neon-database", "convex-database"],
+    "data_management": ["contractor-agent", "project-agent"]
+  },
+  "orchestration_rules": {
+    "routing_logic": "keyword_match + context_analysis",
+    "fallback": "ask_user_for_clarification",
+    "multi_agent_coordination": "enabled"
+  }
+}

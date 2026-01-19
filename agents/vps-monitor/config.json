@@ -1,0 +1,53 @@
+{
+  "agent_id": "vps-monitor",
+  "name": "VPS Monitor Agent",
+  "version": "1.0.0",
+  "description": "Monitors Hostinger VPS (srv1092611.hstgr.cloud) for public FibreFlow deployment. For VF Server (100.96.203.105) internal operations, use .claude/skills/vf-server/ instead.",
+  "type": "infrastructure",
+  "capabilities": [
+    "system_monitoring",
+    "resource_tracking",
+    "process_analysis",
+    "service_status",
+    "health_checks",
+    "performance_analysis"
+  ],
+  "tools": [
+    "get_system_info",
+    "get_cpu_usage",
+    "get_memory_usage",
+    "get_disk_usage",
+    "get_top_processes",
+    "get_network_stats",
+    "get_load_average",
+    "get_services_status",
+    "get_full_health_report"
+  ],
+  "requirements": {
+    "ssh_access": "root@srv1092611.hstgr.cloud",
+    "ssh_key": "~/.ssh/id_ed25519",
+    "api_key": "ANTHROPIC_API_KEY"
+  },
+  "model": "claude-3-5-haiku-20241022",
+  "cost_per_query": 0.001,
+  "target_servers": [
+    {
+      "hostname": "srv1092611.hstgr.cloud",
+      "ip": "72.60.17.245",
+      "location": "Lithuania - Vilnius",
+      "specs": {
+        "cpu": "2 cores",
+        "ram": "8 GB",
+        "disk": "100 GB"
+      }
+    }
+  ],
+  "use_cases": [
+    "Real-time server monitoring",
+    "Performance troubleshooting",
+    "Resource usage alerts",
+    "Service health checks",
+    "Automated health reports"
+  ],
+  "keywords": ["vps", "monitoring", "ssh", "infrastructure", "hostinger", "server", "metrics", "health"]
+}

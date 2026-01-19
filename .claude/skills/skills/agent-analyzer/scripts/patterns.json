@@ -1,0 +1,60 @@
+{
+  "thresholds": {
+    "loop_repetitions": 3,
+    "loop_time_window": 30,
+    "rapid_fire_rate": 50,
+    "stuck_dominance": 80,
+    "retry_attempts": 3,
+    "high_manual_rate": 50,
+    "anomaly_spike": 300
+  },
+  "known_problems": [
+    {
+      "name": "Cloudflare DNS Loop",
+      "pattern": "cloudflared.*tunnel.*route.*dns",
+      "repetitions": 5,
+      "description": "Agent checking if DNS propagated but it's not"
+    },
+    {
+      "name": "Git Push Retry",
+      "pattern": "git push.*origin",
+      "repetitions": 3,
+      "description": "Push failing due to auth or conflicts"
+    },
+    {
+      "name": "File Search Loop",
+      "pattern": "find.*-name",
+      "repetitions": 10,
+      "description": "Agent looking for file that doesn't exist"
+    },
+    {
+      "name": "Service Restart Loop",
+      "pattern": "systemctl.*restart",
+      "repetitions": 3,
+      "description": "Service failing to start properly"
+    },
+    {
+      "name": "Process Check Loop",
+      "pattern": "ps aux.*grep",
+      "repetitions": 10,
+      "description": "Polling for process that isn't starting"
+    }
+  ],
+  "severity_rules": {
+    "commands_per_minute": {
+      "high": 100,
+      "medium": 50,
+      "low": 30
+    },
+    "repetition_count": {
+      "high": 10,
+      "medium": 5,
+      "low": 3
+    },
+    "manual_review_rate": {
+      "high": 70,
+      "medium": 50,
+      "low": 30
+    }
+  }
+}

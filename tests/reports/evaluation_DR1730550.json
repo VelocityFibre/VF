@@ -1,0 +1,143 @@
+{
+  "evaluation": {
+    "dr_number": "DR1730550",
+    "overall_status": "FAIL",
+    "average_score": 0,
+    "total_steps": 16,
+    "passed_steps": 0,
+    "step_results": [
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_1_photo_1",
+        "step_label": "Batch 1 Photo 1",
+        "step_number": 1
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_1_photo_2",
+        "step_label": "Batch 1 Photo 2",
+        "step_number": 2
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_1_photo_3",
+        "step_label": "Batch 1 Photo 3",
+        "step_number": 3
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_1_photo_4",
+        "step_label": "Batch 1 Photo 4",
+        "step_number": 4
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_1_photo_5",
+        "step_label": "Batch 1 Photo 5",
+        "step_number": 5
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_2_photo_1",
+        "step_label": "Batch 2 Photo 1",
+        "step_number": 1
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_2_photo_2",
+        "step_label": "Batch 2 Photo 2",
+        "step_number": 2
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_2_photo_3",
+        "step_label": "Batch 2 Photo 3",
+        "step_number": 3
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_2_photo_4",
+        "step_label": "Batch 2 Photo 4",
+        "step_number": 4
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_2_photo_5",
+        "step_label": "Batch 2 Photo 5",
+        "step_number": 5
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_3_photo_1",
+        "step_label": "Batch 3 Photo 1",
+        "step_number": 1
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_3_photo_2",
+        "step_label": "Batch 3 Photo 2",
+        "step_number": 2
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_3_photo_3",
+        "step_label": "Batch 3 Photo 3",
+        "step_number": 3
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_3_photo_4",
+        "step_label": "Batch 3 Photo 4",
+        "step_number": 4
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_3_photo_5",
+        "step_label": "Batch 3 Photo 5",
+        "step_number": 5
+      },
+      {
+        "score": 0,
+        "passed": false,
+        "comment": "Failed to evaluate: VLM API request timed out after 3 minutes",
+        "step_name": "batch_4_photo_1",
+        "step_label": "Batch 4 Photo 1",
+        "step_number": 1
+      }
+    ],
+    "markdown_report": "Batch 1 failed: VlmEvaluationError: VLM API request timed out after 3 minutes\n\n---\n\nBatch 2 failed: VlmEvaluationError: VLM API request timed out after 3 minutes\n\n---\n\nBatch 3 failed: VlmEvaluationError: VLM API request timed out after 3 minutes\n\n---\n\nBatch 4 failed: VlmEvaluationError: VLM API request timed out after 3 minutes",
+    "feedback_sent": false,
+    "evaluation_date": "2025-12-17T11:30:46.505Z"
+  },
+  "feedback": "\u274c *QA FAILED*\nDR: DR1730550\n\n\ud83d\udcca Overall Score: 0/10\n\u2714\ufe0f Steps Passed: 0/16\n\n\n*Recommendations:*\n\u274c Significant issues found. Please rework and resubmit.\n"
+}

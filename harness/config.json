@@ -1,0 +1,91 @@
+{
+  "harness_version": "1.0.0-fibreflow",
+  "description": "FibreFlow-adapted long-running agent harness for building complex agents",
+  "based_on": "Anthropic Coding Agent Harness",
+
+  "configuration": {
+    "max_features": 100,
+    "session_timeout_minutes": 30,
+    "max_sessions": 50,
+    "model": {
+      "initializer": "claude-sonnet-4.5-20250929",
+      "coding_agent": "claude-3-5-haiku-20241022"
+    },
+    "use_subscription_token": true
+  },
+
+  "fibreflow_patterns": {
+    "base_agent_class": "shared.base_agent.BaseAgent",
+    "agent_directory": "agents/{agent_name}",
+    "test_directory": "tests",
+    "demo_script": "demo_{agent_name}.py",
+    "orchestrator_registry": "orchestrator/registry.json",
+    "required_methods": [
+      "define_tools()",
+      "execute_tool()",
+      "get_system_prompt()",
+      "chat()"
+    ]
+  },
+
+  "core_artifacts": {
+    "app_spec": "harness/specs/{agent_name}_spec.md",
+    "feature_list": "harness/runs/{run_id}/feature_list.json",
+    "init_script": "harness/runs/{run_id}/init_agent.sh",
+    "progress_file": "harness/runs/{run_id}/claude_progress.md"
+  },
+
+  "testing": {
+    "pytest_markers": ["unit", "integration", "{agent_name}"],
+    "test_pattern": "test_{agent_name}.py",
+    "required_test_coverage": [
+      "agent_initialization",
+      "tool_definitions",
+      "tool_execution",
+      "error_handling",
+      "edge_cases"
+    ]
+  },
+
+  "security": {
+    "sandbox_directory": "harness/sandbox",
+    "allowed_commands": [
+      "mkdir", "touch", "ls", "cat", "grep", "git",
+      "pytest", "./venv/bin/python3", "./venv/bin/pytest"
+    ],
+    "restricted_operations": [
+      "rm -rf", "dd", "mkfs", "fdisk",
+      "sudo", "chmod 777", "chown"
+    ],
+    "env_var_validation": true
+  },
+
+  "mcp_servers": {
+    "puppeteer": {
+      "enabled": false,
+      "reason": "Agent development doesn't require browser automation"
+    },
+    "filesystem": {
+      "enabled": true,
+      "restrict_to_project": true
+    }
+  },
+
+  "orchestrator_integration": {
+    "auto_register": true,
+    "generate_triggers": true,
+    "suggested_trigger_count": 8,
+    "infer_capabilities": true
+  },
+
+  "cost_optimization": {
+    "use_haiku_for_simple_features": true,
+    "context_cleanup_interval": 5,
+    "cache_git_history": true,
+    "estimated_cost_per_agent": {
+      "simple": "$3-5",
+      "moderate": "$10-15",
+      "complex": "$20-30"
+    }
+  }
+}

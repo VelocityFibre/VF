@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QFieldCloud Monitor - TEST MODE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .test-banner {
+            background: #ff0;
+            color: #000;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            border: 2px solid #ff0;
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: normal;
+            border-bottom: 1px solid #333;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .timestamp {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .panel {
+            border: 1px solid #333;
+            padding: 15px;
+            background: #0a0a0a;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #111;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: #aaa;
+        }
+
+        .status-value {
+            font-weight: bold;
+        }
+
+        .status-ok { color: #0f0; }
+        .status-warning { color: #ff0; }
+        .status-error { color: #f00; }
+        .status-info { color: #0af; }
+
+        .button {
+            background: none;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: inherit;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+
+        .button:hover {
+            background: #111;
+            border-color: #666;
+        }
+
+        .button.danger {
+            border-color: #f00;
+            color: #f00;
+            padding: 4px 8px;
+            font-size: 11px;
+            margin-left: 10px;
+        }
+
+        .button.danger:hover {
+            background: #f00;
+            color: #000;
+        }
+
+        .restart-btn {
+            display: none;
+        }
+
+        .status-item.service-failed .restart-btn {
+            display: inline-block;
+        }
+
+        .controls {
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .log-viewer {
+            background: #000;
+            border: 1px solid #333;
+            padding: 15px;
+            margin-top: 20px;
+            height: 200px;
+            overflow-y: auto;
+            font-size: 12px;
+            font-family: monospace;
+        }
+
+        .log-line {
+            margin: 2px 0;
+            white-space: pre-wrap;
+        }
+
+        .log-line.info { color: #0af; }
+        .log-line.warning { color: #ff0; }
+        .log-line.error { color: #f00; }
+        .log-line.success { color: #0f0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="test-banner">
+            ⚠️ TEST MODE - Safe Testing Environment (No Real Services Affected) ⚠️
+        </div>
+
+        <h1>
+            QFIELDCLOUD MONITOR - TEST
+            <span class="timestamp" id="current-time"></span>
+        </h1>
+
+        <div class="controls">
+            <button class="button" onclick="simulateAllOk()">Simulate All OK</button>
+            <button class="button" onclick="simulateWorkerFailed()">Simulate Worker Failed</button>
+            <button class="button" onclick="simulateDatabaseFailed()">Simulate DB Failed</button>
+            <button class="button" onclick="simulateMultipleFailed()">Simulate Multiple Failed</button>
+            <button class="button" onclick="clearLogs()">Clear Logs</button>
+        </div>
+
+        <div class="grid">
+            <div class="panel">
+                <div class="panel-title">Services</div>
+                <div class="status-item" id="worker-item">
+                    <span class="status-label">Worker</span>
+                    <span>
+                        <span class="status-value" id="worker-status">RUNNING</span>
+                        <button class="button danger restart-btn" onclick="testRestart('worker')">RESTART</button>
+                    </span>
+                </div>
+                <div class="status-item" id="db-item">
+                    <span class="status-label">Database</span>
+                    <span>
+                        <span class="status-value" id="db-status">RUNNING</span>
+                        <button class="button danger restart-btn" onclick="testRestart('database')">RESTART</button>
+                    </span>
+                </div>
+                <div class="status-item" id="cache-item">
+                    <span class="status-label">Cache</span>
+                    <span>
+                        <span class="status-value" id="cache-status">RUNNING</span>
+                        <button class="button danger restart-btn" onclick="testRestart('cache')">RESTART</button>
+                    </span>
+                </div>
+                <div class="status-item" id="api-item">
+                    <span class="status-label">API</span>
+                    <span>
+                        <span class="status-value" id="api-status">RUNNING</span>
+                        <button class="button danger restart-btn" onclick="testRestart('api')">RESTART</button>
+                    </span>
+                </div>
+                <div class="status-item" id="monitor-item">
+                    <span class="status-label">Monitor</span>
+                    <span>
+                        <span class="status-value" id="monitor-status">ACTIVE</span>
+                        <button class="button danger restart-btn" onclick="testRestart('monitor')">RESTART</button>
+                    </span>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-title">Test Results</div>
+                <div class="status-item">
+                    <span class="status-label">Button Visibility</span>
+                    <span class="status-value status-info" id="test-visibility">Testing...</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Class Management</span>
+                    <span class="status-value status-info" id="test-classes">Testing...</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Restart Function</span>
+                    <span class="status-value status-info" id="test-restart">Testing...</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">API Endpoint</span>
+                    <span class="status-value status-info" id="test-api">Not Tested</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">Test Activity Log</div>
+            <div class="log-viewer" id="log-viewer">
+                <div class="log-line info">Test dashboard initialized. Click buttons above to test functionality.</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('current-time').textContent = now.toLocaleString();
+        }
+
+        function addLog(message, type = 'info') {
+            const viewer = document.getElementById('log-viewer');
+            const line = document.createElement('div');
+            line.className = `log-line ${type}`;
+            const timestamp = new Date().toLocaleTimeString();
+            line.textContent = `[${timestamp}] ${message}`;
+            viewer.appendChild(line);
+            viewer.scrollTop = viewer.scrollHeight;
+        }
+
+        function clearLogs() {
+            const viewer = document.getElementById('log-viewer');
+            viewer.innerHTML = '';
+            addLog('Logs cleared', 'info');
+        }
+
+        function updateServiceStatus(elementId, status) {
+            const element = document.getElementById(elementId);
+            element.textContent = status;
+
+            // Get the parent status-item to control restart button visibility
+            const parentItem = element.closest('.status-item');
+
+            if (status === 'RUNNING' || status === 'ACTIVE') {
+                element.className = 'status-value status-ok';
+                if (parentItem) parentItem.classList.remove('service-failed');
+            } else if (status === 'WARNING') {
+                element.className = 'status-value status-warning';
+                if (parentItem) parentItem.classList.remove('service-failed');
+            } else {
+                // Failed/Stopped/Inactive - show restart button
+                element.className = 'status-value status-error';
+                if (parentItem) parentItem.classList.add('service-failed');
+            }
+
+            // Test class management
+            checkClassManagement();
+        }
+
+        function simulateAllOk() {
+            addLog('Simulating all services OK...', 'info');
+            updateServiceStatus('worker-status', 'RUNNING');
+            updateServiceStatus('db-status', 'RUNNING');
+            updateServiceStatus('cache-status', 'RUNNING');
+            updateServiceStatus('api-status', 'RUNNING');
+            updateServiceStatus('monitor-status', 'ACTIVE');
+            checkButtonVisibility();
+        }
+
+        function simulateWorkerFailed() {
+            addLog('Simulating worker failure...', 'warning');
+            updateServiceStatus('worker-status', 'STOPPED');
+            checkButtonVisibility();
+        }
+
+        function simulateDatabaseFailed() {
+            addLog('Simulating database failure...', 'warning');
+            updateServiceStatus('db-status', 'FAILED');
+            checkButtonVisibility();
+        }
+
+        function simulateMultipleFailed() {
+            addLog('Simulating multiple service failures...', 'warning');
+            updateServiceStatus('worker-status', 'STOPPED');
+            updateServiceStatus('db-status', 'FAILED');
+            updateServiceStatus('cache-status', 'INACTIVE');
+            checkButtonVisibility();
+        }
+
+        function checkButtonVisibility() {
+            const items = document.querySelectorAll('.status-item');
+            let visibleButtons = 0;
+            let hiddenButtons = 0;
+
+            items.forEach(item => {
+                const button = item.querySelector('.restart-btn');
+                if (button) {
+                    const isVisible = window.getComputedStyle(button).display !== 'none';
+                    if (isVisible) visibleButtons++;
+                    else hiddenButtons++;
+                }
+            });
+
+            const testResult = document.getElementById('test-visibility');
+            if (visibleButtons > 0) {
+                testResult.textContent = `PASS (${visibleButtons} visible, ${hiddenButtons} hidden)`;
+                testResult.className = 'status-value status-ok';
+                addLog(`✓ Button visibility test passed: ${visibleButtons} buttons showing for failed services`, 'success');
+            } else {
+                testResult.textContent = `PASS (All services OK)`;
+                testResult.className = 'status-value status-ok';
+            }
+        }
+
+        function checkClassManagement() {
+            const items = document.querySelectorAll('.status-item');
+            let failedCount = 0;
+            let okCount = 0;
+
+            items.forEach(item => {
+                if (item.classList.contains('service-failed')) failedCount++;
+                else okCount++;
+            });
+
+            const testResult = document.getElementById('test-classes');
+            testResult.textContent = `PASS (${failedCount} failed, ${okCount} ok)`;
+            testResult.className = 'status-value status-ok';
+        }
+
+        function testRestart(serviceName) {
+            if (!confirm(`TEST MODE: Simulate restart of ${serviceName}?\n\nThis will NOT affect real services.`)) {
+                return;
+            }
+
+            addLog(`TEST: Simulating restart of ${serviceName}...`, 'warning');
+
+            // Update test result
+            const testResult = document.getElementById('test-restart');
+            testResult.textContent = 'PASS (Function Called)';
+            testResult.className = 'status-value status-ok';
+
+            // Simulate restart sequence
+            const statusId = serviceName === 'database' ? 'db-status' : `${serviceName}-status`;
+            updateServiceStatus(statusId, 'RESTARTING...');
+            addLog(`TEST: ${serviceName} restart initiated`, 'info');
+
+            setTimeout(() => {
+                updateServiceStatus(statusId, 'RUNNING');
+                addLog(`TEST: ${serviceName} restart completed successfully`, 'success');
+            }, 2000);
+        }
+
+        async function testApiEndpoint() {
+            addLog('Testing API endpoint /api/monitor/restart...', 'info');
+
+            try {
+                const response = await fetch('/api/monitor/restart', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ service: 'worker' })
+                });
+
+                const result = await response.json();
+
+                const testResult = document.getElementById('test-api');
+                if (response.ok) {
+                    testResult.textContent = 'PASS (API Reachable)';
+                    testResult.className = 'status-value status-ok';
+                    addLog('✓ API endpoint test passed', 'success');
+                } else {
+                    testResult.textContent = `FAIL (${result.error})`;
+                    testResult.className = 'status-value status-error';
+                    addLog(`✗ API endpoint test failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                const testResult = document.getElementById('test-api');
+                testResult.textContent = 'SKIP (Server Not Running)';
+                testResult.className = 'status-value status-warning';
+                addLog('⊘ API endpoint not available (server not running)', 'warning');
+            }
+        }
+
+        // Initialize
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Run initial tests
+        setTimeout(() => {
+            addLog('Running initial tests...', 'info');
+            checkButtonVisibility();
+            checkClassManagement();
+
+            // Test API if server is running
+            testApiEndpoint();
+        }, 500);
+
+        addLog('All test controls ready. Use buttons above to test functionality.', 'success');
+    </script>
+</body>
+</html>

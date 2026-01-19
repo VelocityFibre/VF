@@ -1,0 +1,32 @@
+# Production Requirements - Full production dependencies
+# Install with: pip install -r requirements/production.txt
+# Last updated: 2025-12-17
+
+# Include base requirements
+-r base.txt
+
+# Advanced Memory Systems (Superior Agent Brain)
+qdrant-client==1.7.3
+numpy==1.26.2
+
+# Production Web Server
+gunicorn==21.2.0
+
+# Monitoring & Logging
+sentry-sdk[fastapi]==1.39.1
+prometheus-client==0.19.0
+
+# Security
+cryptography==41.0.7
+pyjwt==2.8.0
+
+# Performance
+redis==5.0.1  # For caching
+orjson==3.9.10  # Faster JSON processing
+
+# Database Connection Pooling
+# Already included in psycopg2-binary
+
+# Optional: Advanced AI Features
+# voyageai==0.2.3  # Better embeddings
+# openai==1.6.1    # OpenAI integration

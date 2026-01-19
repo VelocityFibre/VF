@@ -1,0 +1,82 @@
+[
+  {
+    "id": "1768313391",
+    "timestamp": "2026-01-13T14:09:51Z",
+    "severity": "CRITICAL",
+    "component": "qgis-image",
+    "description": "QGIS Docker image missing - test",
+    "reporter": "monitoring",
+    "user": "system",
+    "resolved": false
+  },
+  {
+    "id": "1768313633",
+    "timestamp": "2026-01-13T14:13:53Z",
+    "severity": "MAJOR",
+    "component": "workers",
+    "description": "Only 4/8 workers running",
+    "reporter": "monitoring",
+    "user": "system",
+    "resolved": false
+  },
+  {
+    "id": "1768313633",
+    "timestamp": "2026-01-13T14:13:53Z",
+    "severity": "MAJOR",
+    "component": "csrf",
+    "description": "Users reporting 403 errors",
+    "reporter": "manual",
+    "user": "Juan",
+    "resolved": false
+  },
+  {
+    "id": "1768313633",
+    "timestamp": "2026-01-13T14:13:53Z",
+    "severity": "MINOR",
+    "component": "database",
+    "description": "Slow query performance on projects table",
+    "reporter": "monitoring",
+    "user": "system",
+    "resolved": false
+  },
+  {
+    "id": "1768313633",
+    "timestamp": "2026-01-13T14:13:53Z",
+    "severity": "INFO",
+    "component": "deployment",
+    "description": "Routine maintenance completed",
+    "reporter": "manual",
+    "user": "louis",
+    "resolved": false
+  },
+  {
+    "id": "1768313633",
+    "timestamp": "2026-01-13T14:13:53Z",
+    "severity": "CRITICAL",
+    "component": "storage",
+    "description": "MinIO storage unavailable",
+    "reporter": "monitoring",
+    "user": "system",
+    "resolved": false
+  },
+  {
+    "id": "1768314031",
+    "timestamp": "2026-01-13T14:20:31Z",
+    "severity": "CRITICAL",
+    "component": "test-component",
+    "description": "End-to-end test - critical fault alert verification",
+    "reporter": "test",
+    "user": "louis",
+    "resolved": false
+  },
+  {
+    "id": "1768315874",
+    "timestamp": "2026-01-13T14:51:14Z",
+    "severity": "INFO",
+    "component": "test",
+    "description": "Testing new #logFault trigger - quick system",
+    "reporter": "demo",
+    "user": "system",
+    "resolved": false
+  }
+]

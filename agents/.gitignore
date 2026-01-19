@@ -1,0 +1,11 @@
+# Agent-specific ignores
+*.pyc
+__pycache__/
+*.log
+.DS_Store
+
+# Keep all agent folders and config
+!*/
+!*.py
+!*.json
+!*.md

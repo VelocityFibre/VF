@@ -1,0 +1,45 @@
+#!/bin/bash
+# Start the proactive monitoring daemon
+
+DAEMON="/home/louisdup/Agents/claude/api/monitor_daemon.py"
+DASHBOARD="/home/louisdup/Agents/claude/api/monitor_api.py"
+PID_FILE="/tmp/claude-monitor-daemon.pid"
+DASH_PID_FILE="/tmp/claude-monitor-dashboard.pid"
+
+# Check if already running
+if [ -f "$PID_FILE" ] && kill -0 $(cat "$PID_FILE") 2>/dev/null; then
+    echo "⚠️  Monitor daemon already running (PID: $(cat $PID_FILE))"
+else
+    # Start daemon
+    nohup "$DAEMON" > /tmp/monitor-daemon.log 2>&1 &
+    echo $! > "$PID_FILE"
+    echo "✅ Monitor daemon started (PID: $!)"
+fi
+
+# Check dashboard
+if [ -f "$DASH_PID_FILE" ] && kill -0 $(cat "$DASH_PID_FILE") 2>/dev/null; then
+    echo "⚠️  Dashboard already running (PID: $(cat $DASH_PID_FILE))"
+else
+    # Start dashboard
+    nohup python3 "$DASHBOARD" 8002 > /tmp/monitor-dashboard.log 2>&1 &
+    echo $! > "$DASH_PID_FILE"
+    echo "✅ Dashboard started (PID: $!)"
+fi
+
+sleep 2
+
+echo ""
+echo "🔍 Proactive Monitoring Active!"
+echo ""
+echo "📊 Dashboard: http://localhost:8002/monitor"
+echo "📝 Command Log: logs/agent-commands.jsonl"
+echo "🚨 Alert Log: logs/monitor-alerts.log"
+echo ""
+echo "What it does:"
+echo "  • Watches all bash commands automatically"
+echo "  • Detects loops (3+ repeats in 30s)"
+echo "  • Detects stuck operations (>70% same category)"
+echo "  • Desktop notifications for problems"
+echo "  • Logs everything to dashboard"
+echo ""
+echo "Stop with: ./scripts/stop-monitoring"

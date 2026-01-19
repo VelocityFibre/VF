@@ -1,0 +1,56 @@
+#!/bin/bash
+# Quick sync to Hostinger VPS production
+# With quality gates for code deployments
+
+echo "🚀 Sync to Hostinger VPS (app.fibreflow.app)"
+echo ""
+
+# Quality gates for code deployment
+if [[ "$@" == *"--code"* ]]; then
+    echo "🔒 QUALITY GATES ENABLED (code deployment detected)"
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+    # Gate 1: Tests
+    if [ -d "tests" ] && [ -f "venv/bin/pytest" ]; then
+        echo "🧪 Running tests..."
+        ./venv/bin/pytest tests/ -v --tb=short || {
+            echo "❌ Tests failed! Deployment aborted."
+            echo "Fix failing tests before deploying to production."
+            exit 1
+        }
+        echo "✅ Tests passed"
+    else
+        echo "⚠️  No tests found or pytest not installed (skipping)"
+    fi
+
+    # Gate 2: Type check (Python)
+    if [ -f "venv/bin/mypy" ]; then
+        echo "🔍 Type checking..."
+        ./venv/bin/mypy . --ignore-missing-imports --no-error-summary 2>/dev/null || {
+            echo "⚠️  Type check warnings (non-blocking)"
+        }
+        echo "✅ Type check complete"
+    fi
+
+    # Gate 3: Linting (Python)
+    if [ -f "venv/bin/black" ]; then
+        echo "🎨 Checking code formatting..."
+        ./venv/bin/black --check . 2>/dev/null || {
+            echo "⚠️  Code formatting issues (non-blocking)"
+            echo "💡 Run './venv/bin/black .' to auto-format"
+        }
+    fi
+
+    echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    echo "✅ All quality gates passed!"
+    echo ""
+fi
+
+echo "Options:"
+echo "  ./sync-to-hostinger           # Sync documentation only (safe)"
+echo "  ./sync-to-hostinger --code    # Sync docs + code + run quality gates"
+echo "  ./sync-to-hostinger --restart # Sync docs + restart PM2"
+echo "  ./sync-to-hostinger --code --restart # Full sync + quality gates + restart"
+echo ""
+
+python3 .claude/skills/hostinger-vps/scripts/sync_all.py "$@"

@@ -1,0 +1,14 @@
+tunnel: 0bf9e4fa-f650-498c-bd23-def05abe5aaf
+credentials-file: /home/louis/.cloudflared/0bf9e4fa-f650-498c-bd23-def05abe5aaf.json
+
+ingress:
+  # Downloads app (existing)
+  - hostname: vf.fibreflow.app
+    service: http://localhost:80
+
+  # QField Support Portal (NEW)
+  - hostname: support.fibreflow.app
+    service: http://localhost:3005
+
+  # Catch-all (required, must be last)
+  - service: http_status:404

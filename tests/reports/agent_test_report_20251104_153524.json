@@ -1,0 +1,27 @@
+{
+  "timestamp": "2025-11-04T15:35:24.968503",
+  "summary": {
+    "total": 10,
+    "passed": 10,
+    "failed": 0,
+    "success_rate": "100.0%"
+  },
+  "results": {
+    "unified_agent": [
+      "('Tasks', True, 96)",
+      "('Contractors', True, 199)",
+      "('Contractors Count', True, 105)",
+      "('Projects', True, 312)",
+      "('Projects Count', True, 102)",
+      "('Multi-Query', True, 281)"
+    ],
+    "contractor_agent": [],
+    "project_agent": [],
+    "orchestrator": [
+      "('Show me all contractors', True, 'contractor-agent')",
+      "('List all projects', True, 'project-agent')",
+      "('How many tasks do we have?', True, 'convex-database')",
+      "(\"What's the CPU usage?\", True, 'vps-monitor')"
+    ]
+  }
+}

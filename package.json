@@ -1,0 +1,27 @@
+{
+  "name": "claude-vf-agent-workforce",
+  "version": "1.0.0",
+  "description": "VF Agent Workforce - Multi-agent AI system with Convex backend",
+  "main": "index.js",
+  "scripts": {
+    "dev": "convex dev",
+    "deploy": "convex deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "convex",
+    "anthropic",
+    "ai-agents",
+    "claude"
+  ],
+  "author": "VF Operations Team",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.68.0",
+    "convex": "^1.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  }
+}

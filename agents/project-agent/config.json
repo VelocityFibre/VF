@@ -1,0 +1,26 @@
+{
+  "agent_id": "project-agent",
+  "name": "Project Agent",
+  "version": "1.0.0",
+  "description": "Specialized agent for managing VF fiber projects",
+  "type": "data_management",
+  "model": "claude-3-haiku-20240307",
+  "capabilities": [
+    "List all projects",
+    "Search projects by name",
+    "Get project statistics",
+    "Add new projects",
+    "Track project status",
+    "Analyze project data"
+  ],
+  "tools": [
+    "list_projects",
+    "search_projects",
+    "get_project_stats",
+    "add_project"
+  ],
+  "database": "Convex",
+  "collection": "projects",
+  "cost_per_query": "$0.001",
+  "avg_response_time": "2-4s"
+}

@@ -1,0 +1,110 @@
+# Environment files
+.env
+.env.local
+.env.production
+.env.staging
+.env.development
+.env.backup
+.env.save
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Next.js
+.next/
+out/
+
+# Convex
+.convex/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+logs/
+*.log
+nohup*.out
+
+# Testing
+coverage/
+.coverage
+*.cover
+.pytest_cache/
+autopilot_test_results/
+
+# Database
+*.db
+*.sqlite
+*.sql
+!fix_*.sql
+
+# Archives and backups
+archive/
+legacy/
+old_backups/
+*.backup
+
+# Screenshots and media
+screenshots/
+*.png
+*.jpg
+*.jpeg
+!docs/images/*
+
+# Temporary files
+*.tmp
+*.cache
+.warp/
+.worktrees/
+
+# APK files
+*.apk
+
+# SSH keys (NEVER commit)
+*.pem
+*.key
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
+
+# WhatsApp session (critical)
+whatsapp.db
+store/
+
+# Memory and deprecated
+memory/
+workers/
+
+# Public assets
+public/
+
+# Deployment specific
+deployment/wa-monitor/
+
+# Documentation drafts
+WA_*.md
+TEST_*.md
+TRANSFORMATION_*.md
+REORGANIZATION_*.md
+*_DEPLOYMENT_*.md
+!CLAUDE_MIGRATION_PLAN.md

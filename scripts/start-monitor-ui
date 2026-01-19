@@ -1,0 +1,87 @@
+#!/bin/bash
+# Start the Auto-Approval Monitor Web UI
+# Simple one-command launcher for the monitoring dashboard
+
+# Colors for output
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# Default port
+PORT=${1:-8002}
+
+# Script directory
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
+
+# Check if API directory exists
+if [ ! -d "$PROJECT_DIR/api" ]; then
+    mkdir -p "$PROJECT_DIR/api"
+fi
+
+# Check if public directory exists
+if [ ! -d "$PROJECT_DIR/public" ]; then
+    mkdir -p "$PROJECT_DIR/public"
+fi
+
+# Check if logs directory exists
+if [ ! -d "$PROJECT_DIR/logs" ]; then
+    mkdir -p "$PROJECT_DIR/logs"
+    echo "Created logs directory"
+fi
+
+# Check if FastAPI is installed
+if ! python3 -c "import fastapi" 2>/dev/null; then
+    echo -e "${YELLOW}⚠️  FastAPI not installed. Installing...${NC}"
+    pip3 install fastapi uvicorn --user
+fi
+
+# Check if rich is installed (for colored output)
+if ! python3 -c "import rich" 2>/dev/null; then
+    echo -e "${YELLOW}⚠️  Rich not installed. Installing...${NC}"
+    pip3 install rich --user
+fi
+
+# Kill any existing process on the port
+if lsof -Pi :$PORT -sTCP:LISTEN -t >/dev/null 2>&1; then
+    echo -e "${YELLOW}Stopping existing monitor on port $PORT...${NC}"
+    kill $(lsof -Pi :$PORT -sTCP:LISTEN -t) 2>/dev/null
+    sleep 1
+fi
+
+# Clear screen
+clear
+
+# Display header
+echo -e "${GREEN}"
+echo "╔══════════════════════════════════════════════════════╗"
+echo "║       Auto-Approval Monitor - Web Dashboard         ║"
+echo "╚══════════════════════════════════════════════════════╝"
+echo -e "${NC}"
+
+echo -e "${BLUE}🚀 Starting monitor server on port $PORT...${NC}"
+echo ""
+
+# Create empty log file if it doesn't exist
+touch "$PROJECT_DIR/logs/agent-commands.jsonl"
+
+# Start the server
+echo -e "${GREEN}✅ Server starting...${NC}"
+echo ""
+echo -e "${YELLOW}📊 Dashboard URL: ${GREEN}http://localhost:$PORT/monitor${NC}"
+echo -e "${YELLOW}📡 API Endpoint: ${GREEN}http://localhost:$PORT/api/monitor/stats${NC}"
+echo ""
+echo -e "${BLUE}Keyboard Shortcuts:${NC}"
+echo "  • Press 'r' to refresh data"
+echo "  • Press 'a' to toggle auto-refresh"
+echo "  • Press 't' to add test data"
+echo ""
+echo -e "${YELLOW}Press Ctrl+C to stop the server${NC}"
+echo "────────────────────────────────────────────────────────"
+echo ""
+
+# Run the FastAPI server
+cd "$PROJECT_DIR"
+./venv/bin/python3 api/monitor_api.py $PORT

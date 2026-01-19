@@ -1,0 +1,5 @@
+# Main Requirements File
+# This file maintains backward compatibility
+# For new projects, use requirements/base.txt directly
+
+-r requirements/base.txt

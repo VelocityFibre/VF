@@ -1,0 +1,23 @@
+{
+  "whatsapp_config": {
+    "service_url": "http://100.96.203.105:8081",
+    "group_id": "PASTE_YOUR_GROUP_ID_HERE",
+    "group_name": "FF app",
+    "participants": [
+      {"name": "Louis", "phone": "+27..."},
+      {"name": "Hein", "phone": "+27..."}
+    ]
+  },
+  "bridge_config": {
+    "poll_interval": 60,
+    "context_file": "/home/louisdup/Agents/claude/TEAM_CONTEXT.md",
+    "tasks_file": "/home/louisdup/Agents/claude/TEAM_TASKS.json",
+    "decisions_file": "/home/louisdup/Agents/claude/TEAM_DECISIONS.json",
+    "database_url": "${NEON_DATABASE_URL}"
+  },
+  "manual_mode": {
+    "enabled": true,
+    "watch_file": "/home/louisdup/Agents/claude/agents/ff-team-bridge/incoming_messages.txt",
+    "note": "While we find your group ID, paste messages into incoming_messages.txt"
+  }
+}
