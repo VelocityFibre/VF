@@ -1,0 +1,20 @@
+# Claude Orch Agent - Deployed to LifeOS
+
+Status: ✅ Production Ready
+Deployment: LifeOS (Unified UI)  
+API Port: 8001
+Architecture: Skills-based (23ms routing, 84% less context)
+
+Integration Points:
+- MCP Services (Email, WhatsApp, Spotify, Calendar)
+- FibreFlow Agents (VPS, Database, Business)
+- Voice Assistant
+- Command Palette
+- Mobile App
+
+Start Command:
+uvicorn orchestrator_api:app --host 0.0.0.0 --port 8001
+
+Documentation:
+- Full Guide: ORCHESTRATOR_API_GUIDE.md
+- LifeOS Integration: CLAUDE_ORCH_AGENT_LIFEOS.md

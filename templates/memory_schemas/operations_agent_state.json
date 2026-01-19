@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0.0",
+  "agent_type": "operations",
+  "created_at": null,
+  "last_updated": null,
+  "runbook": {
+    "name": "",
+    "version": "1.0.0",
+    "procedures": []
+  },
+  "incidents": [],
+  "incident_timeline": [],
+  "sla_tracking": {
+    "response_time_target_minutes": 5,
+    "resolution_time_target_minutes": 30,
+    "met_this_month": 0,
+    "missed_this_month": 0,
+    "current_month_pct": 0
+  },
+  "system_health": {
+    "last_check": null,
+    "status": "unknown",
+    "metrics": {}
+  },
+  "maintenance_windows": [],
+  "escalation_history": []
+}

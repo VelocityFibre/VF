@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "agent_type": "research",
+  "created_at": null,
+  "last_updated": null,
+  "research_project": {
+    "name": "",
+    "description": "",
+    "start_date": null,
+    "status": "planning"
+  },
+  "hypotheses": [],
+  "experiments": [],
+  "evidence_log": [],
+  "decision_journal": [],
+  "findings": {
+    "key_insights": [],
+    "validated_hypotheses": [],
+    "rejected_hypotheses": []
+  },
+  "next_steps": []
+}

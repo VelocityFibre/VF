@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "agent_type": "customer_support",
+  "created_at": null,
+  "last_updated": null,
+  "customer_context": {
+    "customer_id": null,
+    "customer_name": "",
+    "account_type": "",
+    "interaction_count": 0
+  },
+  "ticket_history": [],
+  "known_issues": [],
+  "escalations": [],
+  "satisfaction_tracking": {
+    "total_interactions": 0,
+    "positive_feedback": 0,
+    "negative_feedback": 0,
+    "nps_score": null
+  },
+  "knowledge_base_queries": [],
+  "resolution_patterns": [],
+  "pending_followups": []
+}

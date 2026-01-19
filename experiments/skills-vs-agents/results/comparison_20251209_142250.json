@@ -1,0 +1,229 @@
+{
+  "timestamp": "2025-12-09T14:22:50.747112",
+  "test_suite": "Skills vs Agent Architecture Comparison",
+  "skills_results": [
+    {
+      "test_id": "simple_001",
+      "test_name": "Count contractors",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 17.52,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/execute_query.py': [Errno 2] No such file or directory\n"
+    },
+    {
+      "test_id": "simple_002",
+      "test_name": "Count active contractors",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 10.99,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/execute_query.py': [Errno 2] No such file or directory\n"
+    },
+    {
+      "test_id": "simple_003",
+      "test_name": "List all tables",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 14.09,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/list_tables.py': [Errno 2] No such file or directory\n"
+    },
+    {
+      "test_id": "simple_004",
+      "test_name": "Describe contractors table",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 12.86,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/describe_table.py': [Errno 2] No such file or directory\n"
+    },
+    {
+      "test_id": "moderate_001",
+      "test_name": "List contractors with details",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 15.63,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/execute_query.py': [Errno 2] No such file or directory\n"
+    },
+    {
+      "test_id": "moderate_002",
+      "test_name": "Get table statistics",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 18.66,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/table_stats.py': [Errno 2] No such file or directory\n"
+    },
+    {
+      "test_id": "multi_step_001",
+      "test_name": "Schema then query",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 16.04,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/execute_query.py': [Errno 2] No such file or directory\n"
+    },
+    {
+      "test_id": "multi_step_002",
+      "test_name": "List tables, describe one, query it",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 10.99,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/execute_query.py': [Errno 2] No such file or directory\n"
+    },
+    {
+      "test_id": "complex_001",
+      "test_name": "Multi-table analysis",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 11.66,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/execute_query.py': [Errno 2] No such file or directory\n"
+    },
+    {
+      "test_id": "edge_001",
+      "test_name": "Invalid table name",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 15.08,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "/home/louisdup/Agents/claude/venv/bin/python3: can't open file '/home/louisdup/Agents/claude/experiments/.claude/skills/database-operations/scripts/execute_query.py': [Errno 2] No such file or directory\n"
+    }
+  ],
+  "agent_results": [
+    {
+      "test_id": "simple_001",
+      "test_name": "Count contractors",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    },
+    {
+      "test_id": "simple_002",
+      "test_name": "Count active contractors",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    },
+    {
+      "test_id": "simple_003",
+      "test_name": "List all tables",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    },
+    {
+      "test_id": "simple_004",
+      "test_name": "Describe contractors table",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    },
+    {
+      "test_id": "moderate_001",
+      "test_name": "List contractors with details",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    },
+    {
+      "test_id": "moderate_002",
+      "test_name": "Get table statistics",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    },
+    {
+      "test_id": "multi_step_001",
+      "test_name": "Schema then query",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    },
+    {
+      "test_id": "multi_step_002",
+      "test_name": "List tables, describe one, query it",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    },
+    {
+      "test_id": "complex_001",
+      "test_name": "Multi-table analysis",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    },
+    {
+      "test_id": "edge_001",
+      "test_name": "Invalid table name",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents'"
+    }
+  ],
+  "comparison": {},
+  "summary": {
+    "total_tests": 10,
+    "skills": {
+      "successful": 0,
+      "failed": 10,
+      "avg_execution_time_ms": 14.35,
+      "avg_context_tokens": 0.0
+    },
+    "agent": {
+      "successful": 0,
+      "failed": 10,
+      "avg_execution_time_ms": 0.0,
+      "avg_context_tokens": 0.0
+    },
+    "comparison": {
+      "context_reduction_pct": 0,
+      "time_difference_ms": 14.35,
+      "skills_faster": false
+    }
+  }
+}

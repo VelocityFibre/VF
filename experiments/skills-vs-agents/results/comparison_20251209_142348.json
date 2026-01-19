@@ -1,0 +1,1158 @@
+{
+  "timestamp": "2025-12-09T14:23:23.989843",
+  "test_suite": "Skills vs Agent Architecture Comparison",
+  "skills_results": [
+    {
+      "test_id": "simple_001",
+      "test_name": "Count contractors",
+      "approach": "skills",
+      "success": true,
+      "execution_time_ms": 2261.28,
+      "context_tokens_estimated": 692,
+      "output": {
+        "success": true,
+        "data": {
+          "query": "SELECT COUNT(*) as count FROM contractors LIMIT 100;",
+          "rows": [
+            {
+              "count": 20
+            }
+          ],
+          "row_count": 1
+        },
+        "message": "Query returned 1 rows"
+      },
+      "error": null
+    },
+    {
+      "test_id": "simple_002",
+      "test_name": "Count active contractors",
+      "approach": "skills",
+      "success": true,
+      "execution_time_ms": 2193.76,
+      "context_tokens_estimated": 692,
+      "output": {
+        "success": true,
+        "data": {
+          "query": "SELECT COUNT(*) as count FROM contractors LIMIT 100;",
+          "rows": [
+            {
+              "count": 20
+            }
+          ],
+          "row_count": 1
+        },
+        "message": "Query returned 1 rows"
+      },
+      "error": null
+    },
+    {
+      "test_id": "simple_003",
+      "test_name": "List all tables",
+      "approach": "skills",
+      "success": true,
+      "execution_time_ms": 3066.53,
+      "context_tokens_estimated": 2589,
+      "output": {
+        "success": true,
+        "data": [
+          {
+            "table_name": "action_items",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "active_contractor_assignments",
+            "table_type": "VIEW"
+          },
+          {
+            "table_name": "agent_actions",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "agent_contributions",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "agent_performance",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "approved_marketing_drops",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "audit_log",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "boq_approvals",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "boq_exceptions",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "boq_items",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "boq_revisions",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "boq_rfq_item_mapping",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "boq_rfq_links",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "boqs",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "cable_drums",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "checklist_items",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "client_analytics",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "clients",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "consolidated_memories",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "consolidation_runs",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "contractor_documents",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "contractor_file_storage",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "contractor_onboarding_stages",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "contractor_projects",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "contractor_rag_history",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "contractor_teams",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "contractors",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "conversations",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "daily_progress",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "drop_dashboard_view",
+            "table_type": "VIEW"
+          },
+          {
+            "table_name": "drop_reviews",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "drop_submissions",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "drops",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "drops_contractors",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "drum_usage_history",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "ff_tasks",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "fiber_stringing",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "fibre_segments",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "financial_transactions",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "fireflies_meetings",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "fireflies_notes",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "fireflies_sync_log",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "fireflies_transcripts",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "foto_ai_reviews",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "home_installations",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "infrastructure_installations",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "invalid_drop_submissions",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "knowledge_edges",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "knowledge_nodes",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "kpi_metrics",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "learning_insights",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "marketing_activations",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "material_usage",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "meeting_action_items",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "meetings",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "messages",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "nokia_equipment",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "nokia_velocity",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "notification_logs",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "one_map",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "onemap_drops",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "onemap_imports",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "onemap_installations",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "onemap_poles",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "onemap_properties",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "poles",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "project_analytics",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "project_assignments",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "projects",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "qa_photo_reviews",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "qa_photo_reviews_duplicates_backup",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "quality_metrics",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "quote_documents",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "quote_items",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "quotes",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "reminder_preferences",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "reminders",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "report_cache",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "reports",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "rfq_evaluation_criteria",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "rfq_evaluation_scores",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "rfq_items",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "rfq_notifications",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "rfq_response_items",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "rfq_responses",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "rfq_summary",
+            "table_type": "VIEW"
+          },
+          {
+            "table_name": "rfqs",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "routing_history",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_1map_ins",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_1map_pole",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_hld_home",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_hld_pole",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_lawley_qa",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_mohadin_qa",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_nokia_exp",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_sync_log",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_sync_state",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_tracker_home",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sharepoint_tracker_pole",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sow",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sow_drops",
+            "table_type": "VIEW"
+          },
+          {
+            "table_name": "sow_fibre",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sow_import_history",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sow_import_status",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sow_onemap_mapping",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "sow_poles",
+            "table_type": "VIEW"
+          },
+          {
+            "table_name": "sow_project_summary",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "staff",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "staff_performance",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "stock_movement_items",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "stock_movements",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "stock_positions",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "supplier_compliance",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "supplier_invitations",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "supplier_products",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "supplier_ratings",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "suppliers",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "tasks",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "team_members",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "teams",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "users",
+            "table_type": "BASE TABLE"
+          },
+          {
+            "table_name": "valid_drop_numbers",
+            "table_type": "BASE TABLE"
+          }
+        ],
+        "message": "Found 122 tables"
+      },
+      "error": null
+    },
+    {
+      "test_id": "simple_004",
+      "test_name": "Describe contractors table",
+      "approach": "skills",
+      "success": true,
+      "execution_time_ms": 2449.65,
+      "context_tokens_estimated": 2556,
+      "output": {
+        "success": true,
+        "data": {
+          "table_name": "contractors",
+          "columns": [
+            {
+              "column_name": "id",
+              "data_type": "uuid",
+              "character_maximum_length": null,
+              "is_nullable": "NO",
+              "column_default": "gen_random_uuid()"
+            },
+            {
+              "column_name": "company_name",
+              "data_type": "text",
+              "character_maximum_length": null,
+              "is_nullable": "NO",
+              "column_default": null
+            },
+            {
+              "column_name": "registration_number",
+              "data_type": "character varying",
+              "character_maximum_length": 50,
+              "is_nullable": "NO",
+              "column_default": null
+            },
+            {
+              "column_name": "contact_person",
+              "data_type": "text",
+              "character_maximum_length": null,
+              "is_nullable": "NO",
+              "column_default": null
+            },
+            {
+              "column_name": "email",
+              "data_type": "character varying",
+              "character_maximum_length": 255,
+              "is_nullable": "NO",
+              "column_default": null
+            },
+            {
+              "column_name": "phone",
+              "data_type": "character varying",
+              "character_maximum_length": 20,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "alternate_phone",
+              "data_type": "character varying",
+              "character_maximum_length": 20,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "physical_address",
+              "data_type": "text",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "postal_address",
+              "data_type": "text",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "city",
+              "data_type": "character varying",
+              "character_maximum_length": 100,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "province",
+              "data_type": "character varying",
+              "character_maximum_length": 100,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "postal_code",
+              "data_type": "character varying",
+              "character_maximum_length": 10,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "business_type",
+              "data_type": "character varying",
+              "character_maximum_length": 50,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "industry_category",
+              "data_type": "character varying",
+              "character_maximum_length": 100,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "years_in_business",
+              "data_type": "integer",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "employee_count",
+              "data_type": "integer",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "annual_turnover",
+              "data_type": "numeric",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "credit_rating",
+              "data_type": "character varying",
+              "character_maximum_length": 10,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "payment_terms",
+              "data_type": "character varying",
+              "character_maximum_length": 50,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "bank_name",
+              "data_type": "character varying",
+              "character_maximum_length": 100,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "account_number",
+              "data_type": "character varying",
+              "character_maximum_length": 50,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "branch_code",
+              "data_type": "character varying",
+              "character_maximum_length": 10,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "status",
+              "data_type": "character varying",
+              "character_maximum_length": 20,
+              "is_nullable": "NO",
+              "column_default": "'pending'::character varying"
+            },
+            {
+              "column_name": "is_active",
+              "data_type": "boolean",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "true"
+            },
+            {
+              "column_name": "compliance_status",
+              "data_type": "character varying",
+              "character_maximum_length": 20,
+              "is_nullable": "YES",
+              "column_default": "'pending'::character varying"
+            },
+            {
+              "column_name": "rag_overall",
+              "data_type": "character varying",
+              "character_maximum_length": 10,
+              "is_nullable": "YES",
+              "column_default": "'amber'::character varying"
+            },
+            {
+              "column_name": "rag_financial",
+              "data_type": "character varying",
+              "character_maximum_length": 10,
+              "is_nullable": "YES",
+              "column_default": "'amber'::character varying"
+            },
+            {
+              "column_name": "rag_compliance",
+              "data_type": "character varying",
+              "character_maximum_length": 10,
+              "is_nullable": "YES",
+              "column_default": "'amber'::character varying"
+            },
+            {
+              "column_name": "rag_performance",
+              "data_type": "character varying",
+              "character_maximum_length": 10,
+              "is_nullable": "YES",
+              "column_default": "'amber'::character varying"
+            },
+            {
+              "column_name": "rag_safety",
+              "data_type": "character varying",
+              "character_maximum_length": 10,
+              "is_nullable": "YES",
+              "column_default": "'amber'::character varying"
+            },
+            {
+              "column_name": "performance_score",
+              "data_type": "numeric",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "safety_score",
+              "data_type": "numeric",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "quality_score",
+              "data_type": "numeric",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "timeliness_score",
+              "data_type": "numeric",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "total_projects",
+              "data_type": "integer",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "0"
+            },
+            {
+              "column_name": "completed_projects",
+              "data_type": "integer",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "0"
+            },
+            {
+              "column_name": "active_projects",
+              "data_type": "integer",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "0"
+            },
+            {
+              "column_name": "cancelled_projects",
+              "data_type": "integer",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "0"
+            },
+            {
+              "column_name": "onboarding_progress",
+              "data_type": "integer",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "0"
+            },
+            {
+              "column_name": "onboarding_completed_at",
+              "data_type": "timestamp without time zone",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "documents_expiring",
+              "data_type": "integer",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "0"
+            },
+            {
+              "column_name": "notes",
+              "data_type": "text",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "tags",
+              "data_type": "json",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "last_activity",
+              "data_type": "timestamp without time zone",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "next_review_date",
+              "data_type": "timestamp without time zone",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "created_by",
+              "data_type": "character varying",
+              "character_maximum_length": 255,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "updated_by",
+              "data_type": "character varying",
+              "character_maximum_length": 255,
+              "is_nullable": "YES",
+              "column_default": null
+            },
+            {
+              "column_name": "created_at",
+              "data_type": "timestamp without time zone",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "now()"
+            },
+            {
+              "column_name": "updated_at",
+              "data_type": "timestamp without time zone",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "now()"
+            },
+            {
+              "column_name": "specializations",
+              "data_type": "jsonb",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "'[]'::jsonb"
+            },
+            {
+              "column_name": "certifications",
+              "data_type": "jsonb",
+              "character_maximum_length": null,
+              "is_nullable": "YES",
+              "column_default": "'[]'::jsonb"
+            }
+          ],
+          "column_count": 51
+        },
+        "message": "Table 'contractors' has 51 columns"
+      },
+      "error": null
+    },
+    {
+      "test_id": "moderate_001",
+      "test_name": "List contractors with details",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 2162.99,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Script execution failed"
+    },
+    {
+      "test_id": "moderate_002",
+      "test_name": "Get table statistics",
+      "approach": "skills",
+      "success": true,
+      "execution_time_ms": 2499.42,
+      "context_tokens_estimated": 697,
+      "output": {
+        "success": true,
+        "data": {
+          "table_name": "contractors",
+          "row_count": 20,
+          "total_size": "160 kB",
+          "table_size": "16 kB",
+          "indexes_size": "112 kB"
+        },
+        "message": "Statistics for 'contractors'"
+      },
+      "error": null
+    },
+    {
+      "test_id": "multi_step_001",
+      "test_name": "Schema then query",
+      "approach": "skills",
+      "success": true,
+      "execution_time_ms": 2482.55,
+      "context_tokens_estimated": 692,
+      "output": {
+        "success": true,
+        "data": {
+          "query": "SELECT COUNT(*) as count FROM contractors LIMIT 100;",
+          "rows": [
+            {
+              "count": 20
+            }
+          ],
+          "row_count": 1
+        },
+        "message": "Query returned 1 rows"
+      },
+      "error": null
+    },
+    {
+      "test_id": "multi_step_002",
+      "test_name": "List tables, describe one, query it",
+      "approach": "skills",
+      "success": true,
+      "execution_time_ms": 2568.11,
+      "context_tokens_estimated": 691,
+      "output": {
+        "success": true,
+        "data": {
+          "query": "SELECT COUNT(*) as count FROM projects LIMIT 100;",
+          "rows": [
+            {
+              "count": 6
+            }
+          ],
+          "row_count": 1
+        },
+        "message": "Query returned 1 rows"
+      },
+      "error": null
+    },
+    {
+      "test_id": "complex_001",
+      "test_name": "Multi-table analysis",
+      "approach": "skills",
+      "success": false,
+      "execution_time_ms": 2309.62,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Script execution failed"
+    },
+    {
+      "test_id": "edge_001",
+      "test_name": "Invalid table name",
+      "approach": "skills",
+      "success": true,
+      "execution_time_ms": 2651.51,
+      "context_tokens_estimated": 692,
+      "output": {
+        "success": true,
+        "data": {
+          "query": "SELECT COUNT(*) as count FROM contractors LIMIT 100;",
+          "rows": [
+            {
+              "count": 20
+            }
+          ],
+          "row_count": 1
+        },
+        "message": "Query returned 1 rows"
+      },
+      "error": null
+    }
+  ],
+  "agent_results": [
+    {
+      "test_id": "simple_001",
+      "test_name": "Count contractors",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    },
+    {
+      "test_id": "simple_002",
+      "test_name": "Count active contractors",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    },
+    {
+      "test_id": "simple_003",
+      "test_name": "List all tables",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    },
+    {
+      "test_id": "simple_004",
+      "test_name": "Describe contractors table",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    },
+    {
+      "test_id": "moderate_001",
+      "test_name": "List contractors with details",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    },
+    {
+      "test_id": "moderate_002",
+      "test_name": "Get table statistics",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    },
+    {
+      "test_id": "multi_step_001",
+      "test_name": "Schema then query",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    },
+    {
+      "test_id": "multi_step_002",
+      "test_name": "List tables, describe one, query it",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    },
+    {
+      "test_id": "complex_001",
+      "test_name": "Multi-table analysis",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    },
+    {
+      "test_id": "edge_001",
+      "test_name": "Invalid table name",
+      "approach": "agent",
+      "success": false,
+      "execution_time_ms": 0,
+      "context_tokens_estimated": 0,
+      "output": null,
+      "error": "Agent not available: No module named 'agents.neon_database'"
+    }
+  ],
+  "comparison": {},
+  "summary": {
+    "total_tests": 10,
+    "skills": {
+      "successful": 8,
+      "failed": 2,
+      "avg_execution_time_ms": 2464.54,
+      "avg_context_tokens": 930.0
+    },
+    "agent": {
+      "successful": 0,
+      "failed": 10,
+      "avg_execution_time_ms": 0.0,
+      "avg_context_tokens": 0.0
+    },
+    "comparison": {
+      "context_reduction_pct": 0,
+      "time_difference_ms": 2464.54,
+      "skills_faster": false
+    }
+  }
+}

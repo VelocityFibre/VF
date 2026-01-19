@@ -1,0 +1,56 @@
+═══════════════════════════════════════════════════════════════
+              MODULE QUICK REFERENCE (Print & Keep)
+═══════════════════════════════════════════════════════════════
+
+FULLY ISOLATED (✅ Safe to modify):
+────────────────────────────────────────────────────────────────
+  qfieldcloud         VF Server:8082   (QField sync)
+  wa-monitor          VF Server:3005   (WhatsApp photo review)
+  whatsapp-sender     VF Server:8081   (WhatsApp service)
+  storage-api         VF Server:8091   (File storage)
+  ocr-service         VF Server:8095   (OCR processing)
+
+  Before modifying:
+  ☐ cat .claude/modules/{module}.md
+  ☐ Unit tests only
+  ☐ Can deploy independently
+
+MOSTLY ISOLATED (⚠️ Verify integrations):
+────────────────────────────────────────────────────────────────
+  knowledge-base      docs.fibreflow.app
+  ticketing          app.fibreflow.app/tickets
+
+  Before modifying:
+  ☐ cat .claude/modules/{module}.md
+  ☐ Unit + Integration tests
+  ☐ Check dependencies section
+  ☐ Verify Neon/Convex sync
+
+TIGHTLY COUPLED (🚨 DANGER - Requires E2E):
+────────────────────────────────────────────────────────────────
+  workflow           🚨 Affects installations, projects, ticketing
+  installations      🚨 Affects workflow, projects
+  projects          🚨 Affects workflow, installations
+
+  Before modifying:
+  ☐ cat .claude/modules/{module}.md (READ THE WARNINGS!)
+  ☐ /tdd spec {feature}
+  ☐ /tdd generate (with E2E tests)
+  ☐ Test on staging for 24 hours
+  ☐ Have rollback plan
+  ☐ NEVER deploy directly to production
+
+═══════════════════════════════════════════════════════════════
+                      EMERGENCY CONTACTS
+═══════════════════════════════════════════════════════════════
+
+Module broken?
+  → Check .claude/modules/{module}.md "Known Gotchas" section
+
+Need full list?
+  → cat .claude/modules/_index.yaml
+
+Need deployment help?
+  → docs/NEW_DEVELOPMENT_WORKFLOW.md
+
+═══════════════════════════════════════════════════════════════

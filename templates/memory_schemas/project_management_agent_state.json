@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "agent_type": "project_management",
+  "created_at": null,
+  "last_updated": null,
+  "project": {
+    "name": "",
+    "description": "",
+    "start_date": null,
+    "target_end_date": null,
+    "actual_end_date": null,
+    "status": "planning",
+    "budget": 0,
+    "spent": 0
+  },
+  "milestones": [],
+  "tasks": [],
+  "risks": [],
+  "blockers": [],
+  "stakeholders": [],
+  "team_members": [],
+  "status_reports": [],
+  "decision_log": [],
+  "change_requests": []
+}

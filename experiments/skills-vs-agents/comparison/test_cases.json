@@ -1,0 +1,159 @@
+{
+  "test_suite": "Skills vs Agent Architecture Comparison",
+  "version": "1.0.0",
+  "test_cases": [
+    {
+      "id": "simple_001",
+      "category": "simple_query",
+      "name": "Count contractors",
+      "description": "Basic COUNT query - tests simplest use case",
+      "query": "How many contractors are in the database?",
+      "expected_tool": "execute_query",
+      "expected_sql_contains": "SELECT COUNT(*)",
+      "complexity": 1,
+      "expected_context_tokens": {
+        "skills": 800,
+        "agent": 4500
+      }
+    },
+    {
+      "id": "simple_002",
+      "category": "simple_query",
+      "name": "Count active contractors",
+      "description": "COUNT with WHERE clause - tests basic filtering",
+      "query": "How many active contractors do we have?",
+      "expected_tool": "execute_query",
+      "expected_sql_contains": "WHERE",
+      "complexity": 2,
+      "expected_context_tokens": {
+        "skills": 850,
+        "agent": 4550
+      }
+    },
+    {
+      "id": "simple_003",
+      "category": "schema_discovery",
+      "name": "List all tables",
+      "description": "Schema discovery - tests metadata operations",
+      "query": "What tables are in the database?",
+      "expected_tool": "list_tables",
+      "complexity": 1,
+      "expected_context_tokens": {
+        "skills": 750,
+        "agent": 4400
+      }
+    },
+    {
+      "id": "simple_004",
+      "category": "schema_discovery",
+      "name": "Describe contractors table",
+      "description": "Table schema - tests structure introspection",
+      "query": "What columns does the contractors table have?",
+      "expected_tool": "describe_table",
+      "complexity": 2,
+      "expected_context_tokens": {
+        "skills": 1200,
+        "agent": 5000
+      }
+    },
+    {
+      "id": "moderate_001",
+      "category": "business_intelligence",
+      "name": "List contractors with details",
+      "description": "Multi-column SELECT - tests data retrieval",
+      "query": "Show me all contractors with their names, phone numbers, and status",
+      "expected_tool": "execute_query",
+      "expected_sql_contains": "SELECT",
+      "complexity": 3,
+      "expected_context_tokens": {
+        "skills": 1500,
+        "agent": 5200
+      }
+    },
+    {
+      "id": "moderate_002",
+      "category": "business_intelligence",
+      "name": "Get table statistics",
+      "description": "Table stats - tests aggregation capabilities",
+      "query": "What's the size and row count of the contractors table?",
+      "expected_tool": "table_stats",
+      "complexity": 2,
+      "expected_context_tokens": {
+        "skills": 900,
+        "agent": 4600
+      }
+    },
+    {
+      "id": "multi_step_001",
+      "category": "multi_step",
+      "name": "Schema then query",
+      "description": "Two-step: describe then query - tests tool composition",
+      "query": "First show me the contractors table schema, then count how many contractors we have",
+      "expected_tools": ["describe_table", "execute_query"],
+      "complexity": 4,
+      "expected_context_tokens": {
+        "skills": 1800,
+        "agent": 5500
+      }
+    },
+    {
+      "id": "multi_step_002",
+      "category": "multi_step",
+      "name": "List tables, describe one, query it",
+      "description": "Three-step workflow - tests extended composition",
+      "query": "List all tables, show me the projects table structure, then count how many projects we have",
+      "expected_tools": ["list_tables", "describe_table", "execute_query"],
+      "complexity": 5,
+      "expected_context_tokens": {
+        "skills": 2400,
+        "agent": 6500
+      }
+    },
+    {
+      "id": "complex_001",
+      "category": "complex_query",
+      "name": "Multi-table analysis",
+      "description": "Complex business intelligence - tests analytical capabilities",
+      "query": "Analyze the distribution of contractors across different status values and show counts for each",
+      "expected_tool": "execute_query",
+      "expected_sql_contains": "GROUP BY",
+      "complexity": 6,
+      "expected_context_tokens": {
+        "skills": 1400,
+        "agent": 5100
+      }
+    },
+    {
+      "id": "edge_001",
+      "category": "error_handling",
+      "name": "Invalid table name",
+      "description": "Error handling - tests graceful failure",
+      "query": "Show me data from the nonexistent_table",
+      "expected_result": "error",
+      "complexity": 2,
+      "expected_context_tokens": {
+        "skills": 850,
+        "agent": 4550
+      }
+    }
+  ],
+  "metadata": {
+    "total_tests": 10,
+    "categories": {
+      "simple_query": 2,
+      "schema_discovery": 2,
+      "business_intelligence": 2,
+      "multi_step": 2,
+      "complex_query": 1,
+      "error_handling": 1
+    },
+    "complexity_distribution": {
+      "1": 2,
+      "2": 4,
+      "3": 1,
+      "4": 1,
+      "5": 1,
+      "6": 1
+    }
+  }
+}
